@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Schood_Desktop.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="50">
+            
+            <Image
+                Source="schood_logo.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Schood logo" />
+
+            <Entry />
+            
+            <Entry />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Se connecter" 
+                Clicked="OnCounterClicked" />
+        
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
