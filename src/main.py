@@ -1,7 +1,6 @@
 import sys
 import PySide6.QtCore
 from PySide6 import QtWidgets, QtCore
-from src.routes.shared.LoginPage import LoginPage
 from src.router.Router import Router
 
 print('Current PySide version:', PySide6.__version__)

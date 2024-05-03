@@ -16,6 +16,7 @@ class Router(QtWidgets.QMainWindow):
         self.setCentralWidget(self.routes)
 
         self.setWindowTitle('Schood')
+        self.setStyleSheet('background-color: #FFFFFF;')
         self.showMaximized()
 
     def init_routes(self):

@@ -4,7 +4,7 @@ import requests
 class HttpRequest:
     def __init__(self):
         self.headers = {}
-        self.baseUrl = "http://localhost:8080"
+        self.baseUrl = "http://schood.fr:8080"
 
     def add_token(self, token):
         self.headers["x-auth-token"] = token

@@ -1,0 +1,1 @@
+pyinstaller --onefile --paths=src src/main.py
