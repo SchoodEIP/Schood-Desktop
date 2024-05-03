@@ -10,6 +10,7 @@ class Button(QtWidgets.QPushButton):
         super().__init__()
         self.setText("Connexion")
         self.setFixedHeight(55)
+        self.setFixedWidth(200)
         self.setStyleSheet("""
             QPushButton {
                 background-color: #4F23E2;
@@ -80,7 +81,6 @@ class LoginPage(Route):
         self.errorText = QtWidgets.QLabel("")
         self.errorText.setStyleSheet("color: #FF0000;"
                                      "font-size: 22px;")
-        self.loginButton.setFixedWidth(200)
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
