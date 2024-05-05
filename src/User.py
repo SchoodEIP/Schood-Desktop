@@ -35,3 +35,15 @@ class User:
             self.role = res.json()["role"]
             self.classes = res.json()["classes"]
             self.picture = res.json()["picture"]
+
+    def disconnect_user(self):
+        self.token = None
+        globalVars.request.add_token(None)
+
+        self._id = None
+        self.firstName = None
+        self.lastName = None
+        self.email = None
+        self.role = None
+        self.classes = None
+        self.picture = None
