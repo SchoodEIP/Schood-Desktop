@@ -38,7 +38,6 @@ class Router(QtWidgets.QMainWindow):
         self.routes.setCurrentIndex(self.indexes[route])
 
     def init_roles_routes(self):
-        print(globalVars.user.role['name'])
         name = globalVars.user.role['name']
         if name is None:
             print('Role name not set')
