@@ -115,6 +115,7 @@ class LoginPage(Route):
             res = globalVars.request.post("/user/login", data=data)
             if res.status_code == 200:
                 globalVars.user.connect_user(res.json())
+                self.parent.init_roles_routes()
                 self.parent.go_to("/")
             elif res.status_code == 400 or res.status_code == 401:
                 self.errorText.setText("Email ou mot de passe incorrect.")
