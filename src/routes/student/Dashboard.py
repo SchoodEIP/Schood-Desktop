@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore
 
-from src.User import user
 from src.router.Route import Route
+from src.utils import globalVars
 
 
 class StudentDashboard(Route):
@@ -17,4 +17,4 @@ class StudentDashboard(Route):
         self.setLayout(self.layout)
 
     def update(self):
-        self.fullName.setText(user.firstName + " " + user.lastName)
+        self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)

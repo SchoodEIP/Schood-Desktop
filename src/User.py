@@ -1,4 +1,4 @@
-from HttpRequest import httpRequest
+from src.utils import globalVars
 
 
 class User:
@@ -25,9 +25,9 @@ class User:
     def connect_user(self, data):
         if data["token"] is not None:
             self.token = data["token"]
-            httpRequest.add_token(self.token)
+            globalVars.request.add_token(self.token)
 
-            res = httpRequest.get('/user/profile')
+            res = globalVars.request.get('/user/profile')
             self._id = res.json()["_id"]
             self.firstName = res.json()["firstname"]
             self.lastName = res.json()["lastname"]
@@ -35,6 +35,3 @@ class User:
             self.role = res.json()["role"]
             self.classes = res.json()["classes"]
             self.picture = res.json()["picture"]
-
-
-user = User()

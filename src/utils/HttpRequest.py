@@ -1,10 +1,11 @@
 import requests
+import os
 
 
 class HttpRequest:
     def __init__(self):
         self.headers = {}
-        self.baseUrl = "http://schood.fr:8080"
+        self.baseUrl = os.getenv('BACKEND_API_URL')
 
     def add_token(self, token):
         self.headers["x-auth-token"] = token
@@ -20,6 +21,3 @@ class HttpRequest:
 
     def delete(self, route):
         return requests.delete(self.baseUrl + route, headers=self.headers)
-
-
-httpRequest = HttpRequest()

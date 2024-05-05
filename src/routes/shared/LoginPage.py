@@ -1,8 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 
-from src.HttpRequest import httpRequest
-from src.User import user
 from src.router.Route import Route
+from src.utils import globalVars
 
 
 class Button(QtWidgets.QPushButton):
@@ -113,9 +112,9 @@ class LoginPage(Route):
                 "email": email,
                 "password": password
             }
-            res = httpRequest.post("/user/login", data=data)
+            res = globalVars.request.post("/user/login", data=data)
             if res.status_code == 200:
-                user.connect_user(res.json())
+                globalVars.user.connect_user(res.json())
                 self.parent.go_to("/")
             elif res.status_code == 400 or res.status_code == 401:
                 self.errorText.setText("Email ou mot de passe incorrect.")

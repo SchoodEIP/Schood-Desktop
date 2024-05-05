@@ -379,3 +379,6 @@ snapshots-diff/
 /env/
 /build/
 /dist/
+/src/dist
+/src/build
+.env
