@@ -8,11 +8,14 @@ class StudentDashboard(Route):
     def __init__(self, parent):
         super().__init__()
 
+        color = "color: #000000;"
         self.parent = parent
         self.layout = QtWidgets.QVBoxLayout()
         self.fullName = QtWidgets.QLabel("")
+        self.fullName.setStyleSheet(color)
         self.text = QtWidgets.QLabel("Student dashboard")
-        self.layout.setAlignment(QtCore.Qt.AlignCenter)
+        self.text.setStyleSheet(color)
+        self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.fullName)
         self.layout.addWidget(self.text)
 

@@ -8,4 +8,4 @@ The desktop application for the Schood EIP Project
 > python -m pip freeze > requirement.txt
 
 ### How to build the project for production
-> pyinstaller --onefile --paths=src src/main.py
+> pyinstaller --onefile --paths=src --add-data "src/images/logo_schood.png:." src/main.py

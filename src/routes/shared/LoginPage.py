@@ -2,6 +2,7 @@ from PySide6 import QtWidgets, QtCore, QtGui
 
 from src.router.Route import Route
 from src.utils import globalVars
+from src.utils.ressources import images_path
 
 
 class Button(QtWidgets.QPushButton):
@@ -55,7 +56,7 @@ class Image(QtWidgets.QLabel):
     def __init__(self):
         super().__init__()
 
-        self.logoImage = QtGui.QPixmap("src/images/logo_schood.png")
+        self.logoImage = QtGui.QPixmap(images_path("logo_schood.png"))
         self.setPixmap(self.logoImage)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.setFixedHeight(247)
