@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['src/main.py'],
+    ['src\\main.py'],
     pathex=['src'],
     binaries=[],
-    datas=[],
+    datas=[('src/images/logo_schood.png', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
