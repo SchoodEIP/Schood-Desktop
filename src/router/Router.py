@@ -2,6 +2,7 @@ from PySide6 import QtWidgets
 
 from src.utils import globalVars
 from src.routes.shared.LoginPage import LoginPage
+from src.routes.shared.ProfilePage import ProfilePage
 from src.routes.student.Dashboard import StudentDashboard
 from src.routes.teacher.Dashboard import TeacherDashboard
 from src.routes.adm.Dashboard import AdmDashboard
@@ -79,5 +80,11 @@ class Router(QtWidgets.QMainWindow):
     def init_admin_routes(self):
         self.widgets.append(AdminDashboard(self))
         self.indexes["/"] = 1
+
+        self.update_routes()
+
+    def init_profile_routes(self):
+        self.widgets.append(ProfilePage(self))
+        self.indexes["/profile"] = 2
 
         self.update_routes()
