@@ -26,8 +26,8 @@ class ProfilePicture(QtWidgets.QLabel):
         self.logoImage = QtGui.QPixmap("src/images/logo_schood.png")
         self.setPixmap(self.logoImage)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.setFixedHeight(247)
-        self.setFixedWidth(356)
+        self.setFixedHeight(300)
+        self.setFixedWidth(300)
 
 
 class ProfilePage(Route):
@@ -37,22 +37,23 @@ class ProfilePage(Route):
         self.parent = parent
 
         self.profilepicture = ProfilePicture()
-        self.firstname = InformationLabel("First Name", globalVars.user.firstName)
-        self.lastname = InformationLabel("Last Name", globalVars.user.lastName)
-        self.classes = InformationLabel("Classes", globalVars.user.classes)
-        self.email = InformationLabel("Email", globalVars.user.email)
+        self.firstname = InformationLabel("First Name:", globalVars.user.firstName)
+        self.lastname = InformationLabel("Last Name:", globalVars.user.lastName)
+        self.classes = InformationLabel("Classe:", globalVars.user.classes)
+        self.email = InformationLabel("Email:", globalVars.user.email)
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
         self.layout.setSpacing(24)
         
-        self.layout.addStretch()
         self.layout.addWidget(self.profilepicture, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.firstname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.lastname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.classes, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.email, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        # self.layout.setSpacing(24)
+        self.layout.addStretch()
         self.setLayout(self.layout)
 
         def RetrieveData():
