@@ -1,14 +1,10 @@
-import base64
-
 from PySide6 import QtWidgets, QtCore
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
 
 from src.router.Route import Route
 from src.utils import globalVars
 
 
-class StudentDashboard(Route):
+class StudentTest(Route):
     def __init__(self, parent):
         super().__init__()
 
@@ -24,14 +20,10 @@ class StudentDashboard(Route):
         self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         self.fullName = QtWidgets.QLabel("")
-        self.text = QtWidgets.QLabel("Student dashboard")
-
-        self.profile = QtWidgets.QLabel()
-        self.imageProfile = QPixmap()
+        self.text = QtWidgets.QLabel("Teeeeeeeeeeeeeeeeeeeeeeest")
 
         self.subLayout.addWidget(self.fullName)
         self.subLayout.addWidget(self.text)
-        self.subLayout.addWidget(self.profile)
 
         self.mainWidget.setLayout(self.subLayout)
 
@@ -41,6 +33,3 @@ class StudentDashboard(Route):
 
     def update(self):
         self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)
-        self.imageProfile.loadFromData(base64.b64decode(globalVars.user.picture.split(",")[1]))
-        self.imageProfile = self.imageProfile.scaled(90, 90, Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        self.profile.setPixmap(self.imageProfile)

@@ -1,27 +1,11 @@
 from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication
 
+from src.components.Button import Button
 from src.router.Route import Route
 from src.utils import globalVars
 from src.utils.ressources import images_path
-
-
-class Button(QtWidgets.QPushButton):
-    def __init__(self):
-        super().__init__()
-        self.setText("Connexion")
-        self.setFixedHeight(55)
-        self.setFixedWidth(200)
-        self.setStyleSheet("""
-            QPushButton {
-                background-color: #4F23E2;
-                border-radius: 26px;
-                color: #FFFFFF;
-                font-size: 22px;
-            }
-            QPushButton:hover {
-                background-color: #4F23C2;
-            }
-        """)
 
 
 class TextInput(QtWidgets.QLineEdit):
@@ -72,13 +56,27 @@ class LoginPage(Route):
         self.logo = Image()
         self.email = LabeledInput("email")
         self.password = LabeledInput("mot de passe")
-        self.forgotPassword = QtWidgets.QPushButton("Mot de passe oublié ? Cliquez ici")
-        self.forgotPassword.setStyleSheet("background-color: #FFFFFF;"
-                                          "border: none;"
-                                          "color: #4F23E2;"
-                                          "font-size: 12px;"
-                                          "font-weight: 600;")
-        self.loginButton = Button()
+        self.forgotPassword = Button(text="Mot de passe oublié ? Cliquez ici", style_sheet="""
+                    QPushButton {
+                        background-color: #FFFFFF;
+                        border: none;
+                        color: #4F23E2;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                """)
+
+        self.loginButton = Button(text="Connexion", width=200, height=55, style_sheet="""
+                    QPushButton {
+                        background-color: #4F23E2;
+                        border-radius: 26px;
+                        color: #FFFFFF;
+                        font-size: 22px;
+                    }
+                    QPushButton:hover {
+                        background-color: #4F23C2;
+                    }
+                """)
         self.errorText = QtWidgets.QLabel("")
         self.errorText.setStyleSheet("color: #FF0000;"
                                      "font-size: 22px;")

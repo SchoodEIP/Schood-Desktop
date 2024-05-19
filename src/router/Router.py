@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets
+from PySide6.QtGui import QIcon
 
 from src.utils import globalVars
 from src.routes.shared.LoginPage import LoginPage
@@ -6,22 +7,42 @@ from src.routes.student.Dashboard import StudentDashboard
 from src.routes.teacher.Dashboard import TeacherDashboard
 from src.routes.adm.Dashboard import AdmDashboard
 from src.routes.admin.Dashboard import AdminDashboard
+from src.components.Sidebar import Sidebar
+from src.utils.ressources import images_path
+from src.routes.student.Test import StudentTest
 
 
 class Router(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.routes = QtWidgets.QStackedWidget()
-        self.widgets = []
-        self.indexes = {}
+
+        self.mainWidget: QtWidgets.QWidget = QtWidgets.QWidget()
+        self.mainLayout: QtWidgets.QHBoxLayout = QtWidgets.QHBoxLayout()
+
+        self.sidebar: Sidebar = Sidebar(self)
+        self.routes: QtWidgets.QStackedWidget = QtWidgets.QStackedWidget()
+        self.widgets: list = []
+        self.indexes: dict = {}
+
+        self.mainLayout.addWidget(self.sidebar)
+        self.mainLayout.addWidget(self.routes)
+
+        self.mainWidget.setLayout(self.mainLayout)
+        self.mainWidget.setStyleSheet("margin: 0px;"
+                                      "padding: 0px;")
 
         self.init_routes()
         self.routes.setCurrentIndex(0)
-        self.setCentralWidget(self.routes)
+        self.sidebar.hide()
 
-        self.setWindowTitle('Schood')
-        self.setStyleSheet('background-color: #FFFFFF;')
+        self.setCentralWidget(self.mainWidget)
+
+        self.setWindowTitle("Schood")
+        self.setStyleSheet("background-color: #FFFFFF;"
+                           "margin: 0px;"
+                           "padding: 0px;")
         self.setContentsMargins(0, 0, 0, 0)
+        self.setWindowIcon(QIcon(images_path("m_logo_schood.ico")))
         self.showMaximized()
 
     def init_routes(self):
@@ -31,12 +52,20 @@ class Router(QtWidgets.QMainWindow):
         self.update_routes()
 
     def update_routes(self):
-        for _, page in enumerate(self.widgets):
+        for page in self.widgets:
             self.routes.addWidget(page)
 
     def go_to(self, route: str):
+        if route in self.sidebar.layout.buttons.keys():
+            self.sidebar.layout.on_child_click()
+            if route == "/":
+                self.sidebar.layout.buttons[route].set_as_current()
         self.widgets[self.indexes[route]].update()
         self.routes.setCurrentIndex(self.indexes[route])
+        if route != "/login":
+            self.sidebar.show()
+        else:
+            self.sidebar.hide()
 
     def init_roles_routes(self):
         name = globalVars.user.role['name']
@@ -62,6 +91,8 @@ class Router(QtWidgets.QMainWindow):
     def init_student_routes(self):
         self.widgets.append(StudentDashboard(self))
         self.indexes["/"] = 1
+        self.widgets.append(StudentTest(self))
+        self.indexes["/test"] = 2
 
         self.update_routes()
 
@@ -82,3 +113,15 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 1
 
         self.update_routes()
+
+    def reset_routes(self):
+        for widget in self.widgets[1:]:
+            self.routes.removeWidget(widget)
+        self.widgets = [self.widgets[0]]
+        self.indexes.clear()
+        self.indexes["/login"] = 0
+
+    def disconnect_user(self):
+        globalVars.user.disconnect_user()
+        self.go_to("/login")
+        self.reset_routes()
