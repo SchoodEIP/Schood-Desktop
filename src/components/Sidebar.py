@@ -80,6 +80,10 @@ class IconTextWidget(Button):
                                 border-radius: 20px;
                                 padding: 0px 0px;
                             }
+                            
+                            QPushButton:focus {
+                                outline: none
+                            }
                     """)
             self.image.setStyleSheet("""
                         QSvgWidget {
@@ -123,6 +127,10 @@ class IconTextWidget(Button):
                     border-radius: 20px;
                     padding: 0px 0px;
                 }
+                
+                QPushButton:focus {
+                    outline: none
+                }
         """)
         self.image.setStyleSheet("""
             QSvgWidget {
@@ -157,6 +165,10 @@ class IconTextWidget(Button):
                 QPushButton:hover {
                     background-color: #FFE2E5;
                     padding: 0px 0px;
+                }
+                
+                QPushButton:focus {
+                    outline: none
                 }
         """)
         self.image.setStyleSheet("""
@@ -269,7 +281,8 @@ class Profile(QWidget):
             self.picture.setFixedSize(QSize(30, 30))
         else:
             self.imageProfile.loadFromData(base64.b64decode(globalVars.user.picture.split(",")[1]))
-            self.imageProfile = self.imageProfile.scaled(30, 30, Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            self.imageProfile = self.imageProfile.scaled(30, 30, Qt.AspectRatioMode.IgnoreAspectRatio,
+                                                         Qt.TransformationMode.SmoothTransformation)
             self.picture.setPixmap(self.imageProfile)
 
         self.firstname = QLabel(globalVars.user.firstName)
@@ -306,7 +319,6 @@ class Layout(QVBoxLayout):
         self.mainWidget = QWidget()
         self.mainLayout = QVBoxLayout()
         self.mainLayout.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        # self.mainLayout.addStretch(1)
 
         self.infos = Profile()
 
@@ -388,16 +400,16 @@ class StudentLayout(Layout):
         self.mainLayout.addWidget(self.profile)
         self.mainLayout.addWidget(self.moods)
         self.mainLayout.addWidget(self.alerts)
+        self.mainLayout.addStretch(1)
         self.mainLayout.addWidget(self.reduce)
         self.mainLayout.addWidget(self.disconnect)
-        self.mainLayout.addStretch(1)
 
         self.mainWidget.setLayout(self.mainLayout)
 
         self.addWidget(self.mainWidget)
 
         self.buttons["/"] = self.home
-        self.buttons["/test"] = self.questionnaires
+        self.buttons["/questionnaires"] = self.questionnaires
         self.buttons["/statistics"] = self.stats
         self.buttons["/messages"] = self.messages
         self.buttons["/help"] = self.help
@@ -440,10 +452,6 @@ class TeacherLayout(Layout):
                                       images_path("account.svg"),
                                       "Mon profil",
                                       lambda: self.parent.parent.go_to("/test"))
-        self.moods = IconTextWidget(self,
-                                    images_path("face.svg"),
-                                    "Mes ressentis",
-                                    lambda: self.parent.parent.go_to("/test"))
         self.alerts = IconTextWidget(self,
                                      images_path("alert.svg"),
                                      "Mes alertes",
@@ -454,7 +462,6 @@ class TeacherLayout(Layout):
         self.messages.set_disable(True)
         self.questionnaires.set_disable(True)
         self.stats.set_disable(True)
-        self.moods.set_disable(True)
         self.alerts.set_disable(True)
 
         self.mainLayout.addWidget(self.home)
@@ -463,23 +470,21 @@ class TeacherLayout(Layout):
         self.mainLayout.addWidget(self.messages)
         self.mainLayout.addWidget(self.help)
         self.mainLayout.addWidget(self.profile)
-        self.mainLayout.addWidget(self.moods)
         self.mainLayout.addWidget(self.alerts)
+        self.mainLayout.addStretch(1)
         self.mainLayout.addWidget(self.reduce)
         self.mainLayout.addWidget(self.disconnect)
-        self.mainLayout.addStretch(1)
 
         self.mainWidget.setLayout(self.mainLayout)
 
         self.addWidget(self.mainWidget)
 
         self.buttons["/"] = self.home
-        self.buttons["/test"] = self.questionnaires
+        self.buttons["/questionnaires"] = self.questionnaires
         self.buttons["/statistics"] = self.stats
         self.buttons["/messages"] = self.messages
         self.buttons["/help"] = self.help
         self.buttons["/profile"] = self.profile
-        self.buttons["/moods"] = self.moods
         self.buttons["/alerts"] = self.alerts
 
     def on_child_click(self):
@@ -497,13 +502,13 @@ class AdmLayout(Layout):
                                    lambda: self.parent.parent.go_to("/"),
                                    True)
 
-        self.questionnaires = IconTextWidget(self,
-                                             images_path("file.svg"),
-                                             "Mes questionnaires",
-                                             lambda: self.parent.parent.go_to("/test"))
+        self.manage = IconTextWidget(self,
+                                     images_path("multiple-account.svg"),
+                                     "Comptes",
+                                     lambda: self.parent.parent.go_to("/test"))
         self.stats = IconTextWidget(self,
                                     images_path("chart.svg"),
-                                    "Mes statistiques",
+                                    "Statistiques",
                                     lambda: self.parent.parent.go_to("/test"))
         self.messages = IconTextWidget(self,
                                        images_path("message.svg"),
@@ -511,36 +516,30 @@ class AdmLayout(Layout):
                                        lambda: self.parent.parent.go_to("/test"))
         self.help = IconTextWidget(self,
                                    images_path("info.svg"),
-                                   "Mes aides",
+                                   "Aides",
                                    lambda: self.parent.parent.go_to("/test"))
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
                                       lambda: self.parent.parent.go_to("/test"))
-        self.moods = IconTextWidget(self,
-                                    images_path("face.svg"),
-                                    "Mes ressentis",
-                                    lambda: self.parent.parent.go_to("/test"))
         self.alerts = IconTextWidget(self,
                                      images_path("alert.svg"),
-                                     "Mes alertes",
+                                     "Alertes",
                                      lambda: self.parent.parent.go_to("/test"))
 
         self.current = self.home
 
         self.messages.set_disable(True)
-        self.questionnaires.set_disable(True)
+        self.manage.set_disable(True)
         self.stats.set_disable(True)
-        self.moods.set_disable(True)
         self.alerts.set_disable(True)
 
         self.mainLayout.addWidget(self.home)
-        self.mainLayout.addWidget(self.questionnaires)
+        self.mainLayout.addWidget(self.manage)
         self.mainLayout.addWidget(self.stats)
         self.mainLayout.addWidget(self.messages)
         self.mainLayout.addWidget(self.help)
         self.mainLayout.addWidget(self.profile)
-        self.mainLayout.addWidget(self.moods)
         self.mainLayout.addWidget(self.alerts)
         self.mainLayout.addWidget(self.reduce)
         self.mainLayout.addWidget(self.disconnect)
@@ -551,12 +550,11 @@ class AdmLayout(Layout):
         self.addWidget(self.mainWidget)
 
         self.buttons["/"] = self.home
-        self.buttons["/test"] = self.questionnaires
+        self.buttons["/manage"] = self.manage
         self.buttons["/statistics"] = self.stats
         self.buttons["/messages"] = self.messages
         self.buttons["/help"] = self.help
         self.buttons["/profile"] = self.profile
-        self.buttons["/moods"] = self.moods
         self.buttons["/alerts"] = self.alerts
 
     def on_child_click(self):
@@ -574,67 +572,35 @@ class AdminLayout(Layout):
                                    lambda: self.parent.parent.go_to("/"),
                                    True)
 
-        self.questionnaires = IconTextWidget(self,
-                                             images_path("file.svg"),
-                                             "Mes questionnaires",
-                                             lambda: self.parent.parent.go_to("/test"))
-        self.stats = IconTextWidget(self,
-                                    images_path("chart.svg"),
-                                    "Mes statistiques",
-                                    lambda: self.parent.parent.go_to("/test"))
-        self.messages = IconTextWidget(self,
-                                       images_path("message.svg"),
-                                       "Mes messages",
-                                       lambda: self.parent.parent.go_to("/test"))
-        self.help = IconTextWidget(self,
-                                   images_path("info.svg"),
-                                   "Mes aides",
-                                   lambda: self.parent.parent.go_to("/test"))
+        self.manage = IconTextWidget(self,
+                                     images_path("multiple-account.svg"),
+                                     "Gestion de l'établissement",
+                                     lambda: self.parent.parent.go_to("/test"))
+        self.manage.text.setWordWrap(True)
+
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
                                       lambda: self.parent.parent.go_to("/test"))
-        self.moods = IconTextWidget(self,
-                                    images_path("face.svg"),
-                                    "Mes ressentis",
-                                    lambda: self.parent.parent.go_to("/test"))
-        self.alerts = IconTextWidget(self,
-                                     images_path("alert.svg"),
-                                     "Mes alertes",
-                                     lambda: self.parent.parent.go_to("/test"))
 
         self.current = self.home
 
-        self.messages.set_disable(True)
-        self.questionnaires.set_disable(True)
-        self.stats.set_disable(True)
-        self.moods.set_disable(True)
-        self.alerts.set_disable(True)
+        self.manage.set_disable(True)
 
         self.mainLayout.addWidget(self.home)
-        self.mainLayout.addWidget(self.questionnaires)
-        self.mainLayout.addWidget(self.stats)
-        self.mainLayout.addWidget(self.messages)
-        self.mainLayout.addWidget(self.help)
+        self.mainLayout.addWidget(self.manage)
         self.mainLayout.addWidget(self.profile)
-        self.mainLayout.addWidget(self.moods)
-        self.mainLayout.addWidget(self.alerts)
+        self.mainLayout.addStretch(1)
         self.mainLayout.addWidget(self.reduce)
         self.mainLayout.addWidget(self.disconnect)
-        self.mainLayout.addStretch(1)
 
         self.mainWidget.setLayout(self.mainLayout)
 
         self.addWidget(self.mainWidget)
 
         self.buttons["/"] = self.home
-        self.buttons["/test"] = self.questionnaires
-        self.buttons["/statistics"] = self.stats
-        self.buttons["/messages"] = self.messages
-        self.buttons["/help"] = self.help
-        self.buttons["/profile"] = self.profile
-        self.buttons["/moods"] = self.moods
-        self.buttons["/alerts"] = self.alerts
+        self.buttons["/manage"] = self.manage
+        self.buttons["/test"] = self.profile
 
     def on_child_click(self):
         for button in self.buttons.values():
