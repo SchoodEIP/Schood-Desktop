@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QKeyEvent
 
 from src.components.Button import Button
 from src.router.Route import Route
@@ -98,28 +98,34 @@ class LoginPage(Route):
         self.forgotPassword.clicked.connect(self.forgot_password)
         self.setLayout(self.layout)
 
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
+            self.login()
+
     @QtCore.Slot()
     def login(self):
         try:
             email = self.email.input.text()
             password = self.password.input.text()
 
-            # if len(email) == 0 or len(password) == 0:
-            #     self.errorText.setText("L'email ou le mot de passe est vide.")
-            #     return
-            # data = {
-            #     "email": email,
-            #     "password": password
-            # }
+            if len(email) == 0 or len(password) == 0:
+                self.errorText.setText("L'email ou le mot de passe est vide.")
+                return
             data = {
-                "email": "alice.johnson.Schood1@schood.fr",
-                "password": "Alice_123"
+                "email": email,
+                "password": password
             }
+            # data = {
+            #     "email": "alice.johnson.Schood1@schood.fr",
+            #     "password": "Alice_123"
+            # }
             res = globalVars.request.post("/user/login", data=data)
             if res.status_code == 200:
                 globalVars.user.connect_user(res.json())
                 self.parent.init_roles_routes()
                 self.parent.go_to("/")
+                self.email.input.setText("")
+                self.password.input.setText("")
             elif res.status_code == 400 or res.status_code == 401:
                 self.errorText.setText("Email ou mot de passe incorrect.")
             else:

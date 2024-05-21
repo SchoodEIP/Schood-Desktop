@@ -26,12 +26,8 @@ class StudentDashboard(Route):
         self.fullName = QtWidgets.QLabel("")
         self.text = QtWidgets.QLabel("Student dashboard")
 
-        self.profile = QtWidgets.QLabel()
-        self.imageProfile = QPixmap()
-
         self.subLayout.addWidget(self.fullName)
         self.subLayout.addWidget(self.text)
-        self.subLayout.addWidget(self.profile)
 
         self.mainWidget.setLayout(self.subLayout)
 
@@ -41,6 +37,3 @@ class StudentDashboard(Route):
 
     def update(self):
         self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)
-        self.imageProfile.loadFromData(base64.b64decode(globalVars.user.picture.split(",")[1]))
-        self.imageProfile = self.imageProfile.scaled(90, 90, Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        self.profile.setPixmap(self.imageProfile)

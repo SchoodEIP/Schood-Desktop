@@ -1,13 +1,17 @@
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon
 
+from src.components.adm.Sidebar import AdmSidebar
+from src.components.admin.Sidebar import AdminSidebar
+from src.components.student.Sidebar import StudentSidebar
+from src.components.teacher.Sidebar import TeacherSidebar
 from src.utils import globalVars
 from src.routes.shared.LoginPage import LoginPage
 from src.routes.student.Dashboard import StudentDashboard
 from src.routes.teacher.Dashboard import TeacherDashboard
 from src.routes.adm.Dashboard import AdmDashboard
 from src.routes.admin.Dashboard import AdminDashboard
-from src.components.Sidebar import Sidebar
+from src.components.Sidebar import Sidebar, StudentLayout
 from src.utils.ressources import images_path
 from src.routes.student.Test import StudentTest
 
@@ -19,7 +23,7 @@ class Router(QtWidgets.QMainWindow):
         self.mainWidget: QtWidgets.QWidget = QtWidgets.QWidget()
         self.mainLayout: QtWidgets.QHBoxLayout = QtWidgets.QHBoxLayout()
 
-        self.sidebar: Sidebar = Sidebar(self)
+        self.sidebar: Sidebar = StudentSidebar(self)
         self.routes: QtWidgets.QStackedWidget = QtWidgets.QStackedWidget()
         self.widgets: list = []
         self.indexes: dict = {}
@@ -89,6 +93,9 @@ class Router(QtWidgets.QMainWindow):
                 print('Role not found')
 
     def init_student_routes(self):
+        self.mainLayout.removeWidget(self.sidebar)
+        self.sidebar = StudentSidebar(self)
+        self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(StudentDashboard(self))
         self.indexes["/"] = 1
         self.widgets.append(StudentTest(self))
@@ -97,20 +104,35 @@ class Router(QtWidgets.QMainWindow):
         self.update_routes()
 
     def init_teacher_routes(self):
+        self.mainLayout.removeWidget(self.sidebar)
+        self.sidebar = TeacherSidebar(self)
+        self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(TeacherDashboard(self))
         self.indexes["/"] = 1
+        self.widgets.append(StudentTest(self))
+        self.indexes["/test"] = 2
 
         self.update_routes()
 
     def init_adm_routes(self):
+        self.mainLayout.removeWidget(self.sidebar)
+        self.sidebar = AdmSidebar(self)
+        self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(AdmDashboard(self))
         self.indexes["/"] = 1
+        self.widgets.append(StudentTest(self))
+        self.indexes["/test"] = 2
 
         self.update_routes()
 
     def init_admin_routes(self):
+        self.mainLayout.removeWidget(self.sidebar)
+        self.sidebar = AdminSidebar(self)
+        self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(AdminDashboard(self))
         self.indexes["/"] = 1
+        self.widgets.append(StudentTest(self))
+        self.indexes["/test"] = 2
 
         self.update_routes()
 
