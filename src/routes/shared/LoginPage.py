@@ -105,12 +105,16 @@ class LoginPage(Route):
             email = self.email.input.text()
             password = self.password.input.text()
 
-            if len(email) == 0 or len(password) == 0:
-                self.errorText.setText("L'email ou le mot de passe est vide.")
-                return
+            # if len(email) == 0 or len(password) == 0:
+            #     self.errorText.setText("L'email ou le mot de passe est vide.")
+            #     return
+            # data = {
+            #     "email": email,
+            #     "password": password
+            # }
             data = {
-                "email": email,
-                "password": password
+                "email": "alice.johnson.Schood1@schood.fr",
+                "password": "Alice_123"
             }
             res = globalVars.request.post("/user/login", data=data)
             if res.status_code == 200:
