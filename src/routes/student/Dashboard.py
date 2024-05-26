@@ -1,4 +1,8 @@
+import base64
+
 from PySide6 import QtWidgets, QtCore
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap
 
 from src.router.Route import Route
 from src.utils import globalVars
@@ -14,6 +18,7 @@ class StudentDashboard(Route):
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
 
         self.mainWidget = QtWidgets.QWidget()
+        self.mainWidget.setStyleSheet("color: #000000")
 
         self.subLayout = QtWidgets.QVBoxLayout()
         self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -23,8 +28,6 @@ class StudentDashboard(Route):
 
         self.subLayout.addWidget(self.fullName)
         self.subLayout.addWidget(self.text)
-
-        self.mainLayout.addWidget(globalVars.sideBar)
 
         self.mainWidget.setLayout(self.subLayout)
 

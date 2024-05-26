@@ -12,10 +12,11 @@ class InformationLabel(QtWidgets.QWidget):
         self.label.setStyleSheet(
             "color: #4F23E2;" "font-size: 22px;" "font-weight: 600;"
         )
-        self.email = QtWidgets.QLabel(info)
+        self.data = QtWidgets.QLabel(info)
 
         layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.label)
+        layout.addWidget(self.data)
         self.setLayout(layout)
 
 
@@ -37,10 +38,10 @@ class ProfilePage(Route):
         self.parent = parent
 
         self.profilepicture = ProfilePicture()
-        self.firstname = InformationLabel("First Name:", globalVars.user.firstName)
-        self.lastname = InformationLabel("Last Name:", globalVars.user.lastName)
-        self.classes = InformationLabel("Classe:", globalVars.user.classes)
-        self.email = InformationLabel("Email:", globalVars.user.email)
+        self.firstname = InformationLabel("First Name:", "")
+        self.lastname = InformationLabel("Last Name:", "")
+        self.classes = InformationLabel("Classe:", "")
+        self.email = InformationLabel("Email:", "")
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -56,8 +57,8 @@ class ProfilePage(Route):
         self.layout.addStretch()
         self.setLayout(self.layout)
 
-        def RetrieveData():
-            self.firstname.label.setText(globalVars.user.firstname)
-            self.lastname.label.setText(globalVars.user.lastname)
-            self.classes.label.setText(globalVars.user.classes)
-            self.email.label.setText(globalVars.user.email)
+    def update(self):
+        self.firstname.data.setText(globalVars.user.firstName)
+        self.lastname.data.setText(globalVars.user.lastName)
+        # self.classes.data.setText(globalVars.user.classes)
+        self.email.data.setText(globalVars.user.email)
