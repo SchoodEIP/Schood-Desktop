@@ -39,9 +39,13 @@ class ProfilePage(Route):
 
         self.profilepicture = ProfilePicture()
         self.firstname = InformationLabel("First Name:", "")
+        self.firstname.data.setStyleSheet("color: #000000;" "font-size: 22px;")
         self.lastname = InformationLabel("Last Name:", "")
+        self.lastname.data.setStyleSheet("color: #000000;" "font-size: 22px;")
         self.classes = InformationLabel("Classe:", "")
+        self.classes.data.setStyleSheet("color: #000000;" "font-size: 22px;")
         self.email = InformationLabel("Email:", "")
+        self.email.data.setStyleSheet("color: #000000;" "font-size: 22px;")
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -50,9 +54,13 @@ class ProfilePage(Route):
         
         self.layout.addWidget(self.profilepicture, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.firstname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.firstname.data, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.lastname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.lastname.data, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.classes, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.classes.data, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.email, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.email.data, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         # self.layout.setSpacing(24)
         self.layout.addStretch()
         self.setLayout(self.layout)
