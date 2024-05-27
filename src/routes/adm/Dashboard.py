@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore
 
 from src.router.Route import Route
-from src.utils import globalVars
+from src.stores import stores
 
 
 class AdmDashboard(Route):
@@ -19,4 +19,4 @@ class AdmDashboard(Route):
         self.setLayout(self.layout)
 
     def update(self):
-        self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)
+        self.fullName.setText(stores.user.firstName + " " + stores.user.lastName)

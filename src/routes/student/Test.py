@@ -1,7 +1,6 @@
 from PySide6 import QtWidgets, QtCore
 
 from src.router.Route import Route
-from src.utils import globalVars
 
 
 class StudentTest(Route):
@@ -32,4 +31,4 @@ class StudentTest(Route):
         self.setLayout(self.mainLayout)
 
     def update(self):
-        self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)
+        self.fullName.setText(stores.user.firstName + " " + stores.user.lastName)

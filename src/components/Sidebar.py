@@ -6,7 +6,7 @@ from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QApplication
 
 from src.components.Button import Button
-from src.utils import globalVars
+from src.stores import stores
 from src.utils.ressources import images_path
 
 
@@ -276,17 +276,17 @@ class Profile(QWidget):
                 }
             """)
 
-        if globalVars.user.picture is None or len(globalVars.user.picture.split(",")) != 2:
+        if stores.user.picture is None or len(stores.user.picture.split(",")) != 2:
             self.picture = QSvgWidget(images_path("circle_account.svg"))
             self.picture.setFixedSize(QSize(30, 30))
         else:
-            self.imageProfile.loadFromData(base64.b64decode(globalVars.user.picture.split(",")[1]))
+            self.imageProfile.loadFromData(base64.b64decode(stores.user.picture.split(",")[1]))
             self.imageProfile = self.imageProfile.scaled(30, 30, Qt.AspectRatioMode.IgnoreAspectRatio,
                                                          Qt.TransformationMode.SmoothTransformation)
             self.picture.setPixmap(self.imageProfile)
 
-        self.firstname = QLabel(globalVars.user.firstName)
-        self.lastname = QLabel(globalVars.user.lastName)
+        self.firstname = QLabel(stores.user.firstName)
+        self.lastname = QLabel(stores.user.lastName)
 
         self.layout.addWidget(self.picture)
         self.nameWidgetLayout.addWidget(self.firstname)
@@ -447,7 +447,7 @@ class TeacherLayout(Layout):
         self.help = IconTextWidget(self,
                                    images_path("info.svg"),
                                    "Mes aides",
-                                   lambda: self.parent.parent.go_to("/test"))
+                                   lambda: self.parent.parent.go_to("/help"))
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",

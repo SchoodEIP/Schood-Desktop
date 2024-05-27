@@ -4,7 +4,7 @@ from PySide6.QtGui import QKeyEvent
 
 from src.components.Button import Button
 from src.router.Route import Route
-from src.utils import globalVars
+from src.stores import stores
 from src.utils.ressources import images_path
 
 
@@ -105,19 +105,23 @@ class LoginPage(Route):
     @QtCore.Slot()
     def login(self):
         try:
-            email = self.email.input.text()
-            password = self.password.input.text()
-
-            if len(email) == 0 or len(password) == 0:
-                self.errorText.setText("L'email ou le mot de passe est vide.")
-                return
+            # email = self.email.input.text()
+            # password = self.password.input.text()
+            #
+            # if len(email) == 0 or len(password) == 0:
+            #     self.errorText.setText("L'email ou le mot de passe est vide.")
+            #     return
+            # data = {
+            #     "email": email,
+            #     "password": password
+            # }
             data = {
-                "email": email,
-                "password": password
+                "email": "pierre.dubois.Schood1@schood.fr",
+                "password": "Pierre_123"
             }
-            res = globalVars.request.post("/user/login", data=data)
+            res = stores.request.post("/user/login", data=data)
             if res.status_code == 200:
-                globalVars.user.connect_user(res.json())
+                stores.user.connect_user(res.json())
                 self.parent.init_roles_routes()
                 self.parent.go_to("/")
                 self.email.input.setText("")
