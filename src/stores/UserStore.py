@@ -1,7 +1,7 @@
-from src.utils import globalVars
+from src.stores import stores
 
 
-class User:
+class UserStore:
     def __init__(self):
         self.token = None
         self._id = None
@@ -25,9 +25,9 @@ class User:
     def connect_user(self, data):
         if data["token"] is not None:
             self.token = data["token"]
-            globalVars.request.add_token(self.token)
+            stores.request.add_token(self.token)
 
-            res = globalVars.request.get('/user/profile')
+            res = stores.request.get('/user/profile')
             self._id = res.json()["_id"]
             self.firstName = res.json()["firstname"]
             self.lastName = res.json()["lastname"]
@@ -38,7 +38,7 @@ class User:
 
     def disconnect_user(self):
         self.token = None
-        globalVars.request.add_token(None)
+        stores.request.add_token(None)
 
         self._id = None
         self.firstName = None

@@ -4,7 +4,7 @@ from PySide6.QtGui import QKeyEvent
 
 from src.components.Button import Button
 from src.router.Route import Route
-from src.utils import globalVars
+from src.stores import stores
 from src.utils.ressources import images_path
 
 
@@ -115,9 +115,13 @@ class LoginPage(Route):
                 "email": email,
                 "password": password
             }
-            res = globalVars.request.post("/user/login", data=data)
+            # data = {
+            #     "email": "pierre.dubois.Schood1@schood.fr",
+            #     "password": "Pierre_123"
+            # }
+            res = stores.request.post("/user/login", data=data)
             if res.status_code == 200:
-                globalVars.user.connect_user(res.json())
+                stores.user.connect_user(res.json())
                 self.parent.init_roles_routes()
                 self.parent.go_to("/")
                 self.email.input.setText("")

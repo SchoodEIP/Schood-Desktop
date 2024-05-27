@@ -2,7 +2,7 @@ import requests
 import os
 
 
-class HttpRequest:
+class HttpRequestStore:
     def __init__(self):
         self.headers = {}
         self.baseUrl = os.getenv('BACKEND_API_URL')

@@ -1,11 +1,7 @@
-import base64
-
 from PySide6 import QtWidgets, QtCore
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
 
 from src.router.Route import Route
-from src.utils import globalVars
+from src.stores import stores
 
 
 class StudentDashboard(Route):
@@ -36,4 +32,4 @@ class StudentDashboard(Route):
         self.setLayout(self.mainLayout)
 
     def update(self):
-        self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)
+        self.fullName.setText(stores.user.firstName + " " + stores.user.lastName)

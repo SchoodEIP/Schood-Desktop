@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['src/main.py'],
+    ['src\\main.py'],
     pathex=['src'],
     binaries=[],
     datas=[('src/images/*', '.')],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main',
+    name='Schood',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['src/images/m_logo_schood.ico'],
+    icon=['src\\images\\m_logo_schood.ico'],
 )

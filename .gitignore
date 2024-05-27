@@ -7,14 +7,14 @@
 .buildtasks/
 templatesTest/
 
-# User-specific files
+# UserStore-specific files
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-# User-specific files (MonoDevelop/Xamarin Studio)
+# UserStore-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Mono auto generated files
@@ -382,3 +382,5 @@ snapshots-diff/
 /src/dist
 /src/build
 .env
+SchoodDesktop/
+schooddesktop-darwin-x64/
