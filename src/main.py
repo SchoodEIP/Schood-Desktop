@@ -1,4 +1,7 @@
+import os
 import sys
+src_dir = os.path.abspath(".")
+sys.path.append(src_dir)
 
 import PySide6.QtCore
 from PySide6 import QtWidgets, QtCore

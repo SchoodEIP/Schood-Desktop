@@ -374,7 +374,7 @@ class StudentLayout(Layout):
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
-                                      lambda: self.parent.parent.go_to("/test"))
+                                      lambda: self.parent.parent.go_to("/profile"))
         self.moods = IconTextWidget(self,
                                     images_path("face.svg"),
                                     "Mes ressentis",
@@ -451,7 +451,7 @@ class TeacherLayout(Layout):
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
-                                      lambda: self.parent.parent.go_to("/test"))
+                                      lambda: self.parent.parent.go_to("/profile"))
         self.alerts = IconTextWidget(self,
                                      images_path("alert.svg"),
                                      "Mes alertes",
@@ -521,7 +521,7 @@ class AdmLayout(Layout):
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
-                                      lambda: self.parent.parent.go_to("/test"))
+                                      lambda: self.parent.parent.go_to("/profile"))
         self.alerts = IconTextWidget(self,
                                      images_path("alert.svg"),
                                      "Alertes",
@@ -581,7 +581,7 @@ class AdminLayout(Layout):
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
-                                      lambda: self.parent.parent.go_to("/test"))
+                                      lambda: self.parent.parent.go_to("/profile"))
 
         self.current = self.home
 

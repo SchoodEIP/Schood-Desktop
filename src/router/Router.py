@@ -9,6 +9,7 @@ from src.components.shared.HelpNumbers import HelpNumbers
 from src.components.student.Sidebar import StudentSidebar
 from src.components.teacher.Sidebar import TeacherSidebar
 from src.routes.shared.LoginPage import LoginPage
+from src.routes.shared.ProfilePage import ProfilePage
 from src.routes.student.Dashboard import StudentDashboard
 from src.routes.teacher.Dashboard import TeacherDashboard
 from src.routes.adm.Dashboard import AdmDashboard
@@ -55,6 +56,8 @@ class Router(QtWidgets.QMainWindow):
     def init_routes(self):
         self.widgets.append(LoginPage(self))
         self.indexes["/login"] = 0
+        self.widgets.append(ProfilePage(self))
+        self.indexes["/profile"] = 1
 
         self.update_routes()
 
@@ -63,7 +66,6 @@ class Router(QtWidgets.QMainWindow):
             self.routes.addWidget(page)
 
     def go_to(self, route: str):
-        print("Route: " + route)
         if route in self.sidebar.layout.buttons.keys():
             self.sidebar.layout.on_child_click()
             self.sidebar.layout.buttons[route].set_as_current()
@@ -100,9 +102,9 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = StudentSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(StudentDashboard(self))
-        self.indexes["/"] = 1
+        self.indexes["/"] = 2
         self.widgets.append(StudentTest(self))
-        self.indexes["/test"] = 2
+        self.indexes["/test"] = 3
 
         self.update_routes()
 
@@ -111,13 +113,13 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = TeacherSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(TeacherDashboard(self))
-        self.indexes["/"] = 1
+        self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
-        self.indexes["/help"] = 2
+        self.indexes["/help"] = 3
         self.widgets.append(HelpNumbers(self))
-        self.indexes["/helpNumbers"] = 3
+        self.indexes["/helpNumbers"] = 4
         self.widgets.append(HelpNumber(self))
-        self.indexes["/helpNumber"] = 4
+        self.indexes["/helpNumber"] = 5
 
         self.update_routes()
 
@@ -126,9 +128,9 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = AdmSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(AdmDashboard(self))
-        self.indexes["/"] = 1
+        self.indexes["/"] = 2
         self.widgets.append(StudentTest(self))
-        self.indexes["/test"] = 2
+        self.indexes["/test"] = 3
 
         self.update_routes()
 
@@ -137,9 +139,9 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = AdminSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(AdminDashboard(self))
-        self.indexes["/"] = 1
+        self.indexes["/"] = 2
         self.widgets.append(StudentTest(self))
-        self.indexes["/test"] = 2
+        self.indexes["/test"] = 3
 
         self.update_routes()
 
