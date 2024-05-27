@@ -1,11 +1,10 @@
 from PySide6 import QtWidgets, QtCore
-from PySide6.QtGui import QPixmap
 
 from src.router.Route import Route
 from src.utils import globalVars
 
 
-class TeacherDashboard(Route):
+class StudentTest(Route):
     def __init__(self, parent):
         super().__init__()
 
@@ -21,7 +20,7 @@ class TeacherDashboard(Route):
         self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
         self.fullName = QtWidgets.QLabel("")
-        self.text = QtWidgets.QLabel("Teacher dashboard")
+        self.text = QtWidgets.QLabel("Teeeeeeeeeeeeeeeeeeeeeeest")
 
         self.subLayout.addWidget(self.fullName)
         self.subLayout.addWidget(self.text)
@@ -34,4 +33,3 @@ class TeacherDashboard(Route):
 
     def update(self):
         self.fullName.setText(globalVars.user.firstName + " " + globalVars.user.lastName)
-

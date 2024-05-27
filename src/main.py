@@ -1,4 +1,3 @@
-import os
 import sys
 
 import PySide6.QtCore
@@ -15,8 +14,8 @@ print('Current PySide version:', PySide6.__version__)
 print('Current Qt version:', QtCore.__version__)
 
 if __name__ == "__main__":
-    globalVars.init()
     app = QtWidgets.QApplication([])
+    globalVars.init()
 
     router = Router()
     router.show()

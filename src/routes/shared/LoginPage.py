@@ -1,26 +1,11 @@
 from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeyEvent
 
+from src.components.Button import Button
 from src.router.Route import Route
 from src.utils import globalVars
-
-
-class Button(QtWidgets.QPushButton):
-    def __init__(self):
-        super().__init__()
-        self.setText("Connexion")
-        self.setFixedHeight(55)
-        self.setFixedWidth(200)
-        self.setStyleSheet("""
-            QPushButton {
-                background-color: #4F23E2;
-                border-radius: 26px;
-                color: #FFFFFF;
-                font-size: 22px;
-            }
-            QPushButton:hover {
-                background-color: #4F23C2;
-            }
-        """)
+from src.utils.ressources import images_path
 
 
 class TextInput(QtWidgets.QLineEdit):
@@ -55,7 +40,7 @@ class Image(QtWidgets.QLabel):
     def __init__(self):
         super().__init__()
 
-        self.logoImage = QtGui.QPixmap("src/images/logo_schood.png")
+        self.logoImage = QtGui.QPixmap(images_path("logo_schood.png"))
         self.setPixmap(self.logoImage)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.setFixedHeight(247)
@@ -71,13 +56,27 @@ class LoginPage(Route):
         self.logo = Image()
         self.email = LabeledInput("email")
         self.password = LabeledInput("mot de passe")
-        self.forgotPassword = QtWidgets.QPushButton("Mot de passe oublié ? Cliquez ici")
-        self.forgotPassword.setStyleSheet("background-color: #FFFFFF;"
-                                          "border: none;"
-                                          "color: #4F23E2;"
-                                          "font-size: 12px;"
-                                          "font-weight: 600;")
-        self.loginButton = Button()
+        self.forgotPassword = Button(text="Mot de passe oublié ? Cliquez ici", style_sheet="""
+                    QPushButton {
+                        background-color: #FFFFFF;
+                        border: none;
+                        color: #4F23E2;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                """)
+
+        self.loginButton = Button(text="Connexion", width=200, height=55, style_sheet="""
+                    QPushButton {
+                        background-color: #4F23E2;
+                        border-radius: 26px;
+                        color: #FFFFFF;
+                        font-size: 22px;
+                    }
+                    QPushButton:hover {
+                        background-color: #4F23C2;
+                    }
+                """)
         self.errorText = QtWidgets.QLabel("")
         self.errorText.setStyleSheet("color: #FF0000;"
                                      "font-size: 22px;")
@@ -99,6 +98,10 @@ class LoginPage(Route):
         self.forgotPassword.clicked.connect(self.forgot_password)
         self.setLayout(self.layout)
 
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
+            self.login()
+
     @QtCore.Slot()
     def login(self):
         try:
@@ -117,6 +120,9 @@ class LoginPage(Route):
                 globalVars.user.connect_user(res.json())
                 self.parent.init_roles_routes()
                 self.parent.go_to("/")
+                self.email.input.setText("")
+                self.password.input.setText("")
+                self.errorText.setText("")
             elif res.status_code == 400 or res.status_code == 401:
                 self.errorText.setText("Email ou mot de passe incorrect.")
             else:
