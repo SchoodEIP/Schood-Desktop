@@ -14,9 +14,6 @@ class ProfilePicture(QWidget):
     def __init__(self):
         super().__init__()
 
-        main_layout = QVBoxLayout()
-        main_layout.setContentsMargins(0, 40, 0, 0)
-
         self.layout = QHBoxLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -87,6 +84,7 @@ class ProfilePage(Route):
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
         self.layout.setSpacing(20)
+        self.layout.setContentsMargins(0, 150, 0, 0)
 
         self.layout.addWidget(self.profilepicture, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.firstname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
