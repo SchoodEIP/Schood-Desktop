@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy
+from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QSizePolicy
 
 from src.components.Button import Button
 from src.router.Route import Route
@@ -13,8 +13,6 @@ class InfoBox(QWidget):
         self.parent = parent
         self.layout = QVBoxLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        # self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         self.component = QWidget(self)
         self.component.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)

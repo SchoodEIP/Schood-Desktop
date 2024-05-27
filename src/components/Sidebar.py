@@ -370,7 +370,7 @@ class StudentLayout(Layout):
         self.help = IconTextWidget(self,
                                    images_path("info.svg"),
                                    "Mes aides",
-                                   lambda: self.parent.parent.go_to("/test"))
+                                   lambda: self.parent.parent.go_to("/help"))
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",
@@ -517,7 +517,7 @@ class AdmLayout(Layout):
         self.help = IconTextWidget(self,
                                    images_path("info.svg"),
                                    "Aides",
-                                   lambda: self.parent.parent.go_to("/test"))
+                                   lambda: self.parent.parent.go_to("/help"))
         self.profile = IconTextWidget(self,
                                       images_path("account.svg"),
                                       "Mon profil",

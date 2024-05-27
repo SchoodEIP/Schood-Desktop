@@ -1,14 +1,16 @@
 import base64
 
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QVBoxLayout, QSizePolicy, QScrollArea
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QSize, Qt
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtSvgWidgets import QSvgWidget
 
+from src.components.Button import Button
 from src.router.Route import Route
-from src.utils import globalVars
+from src.stores import stores
 from src.utils.ressources import images_path
+
 
 class ProfilePicture(QWidget):
     def __init__(self):
@@ -37,17 +39,18 @@ class ProfilePicture(QWidget):
             }
         """)
 
-        if globalVars.user.picture is None or len(globalVars.user.picture.split(",")) != 2:
+        if stores.user.picture is None or len(stores.user.picture.split(",")) != 2:
             self.picture = QSvgWidget(images_path("circle_account.svg"))
             self.picture.setFixedSize(QSize(200, 200))
         else:
-            self.imageProfile.loadFromData(base64.b64decode(globalVars.user.picture.split(",")[1]))
+            self.imageProfile.loadFromData(base64.b64decode(stores.user.picture.split(",")[1]))
             self.imageProfile = self.imageProfile.scaled(200, 200, Qt.AspectRatioMode.IgnoreAspectRatio,
                                                          Qt.TransformationMode.SmoothTransformation)
             self.picture.setPixmap(self.imageProfile)
 
         self.layout.addWidget(self.picture)
         self.setLayout(self.layout)
+
 
 class InformationLabel(QtWidgets.QWidget):
     def __init__(self, infotitle="", info=""):
@@ -64,13 +67,14 @@ class InformationLabel(QtWidgets.QWidget):
         layout.addWidget(self.data)
         self.setLayout(layout)
 
-class ProfilePage(Route):
+
+class ProfileWidget(QWidget):
     def __init__(self, parent):
         super().__init__()
 
         self.parent = parent
 
-        self.profilepicture = ProfilePicture()
+        self.profilePicture = ProfilePicture()
         self.firstname = InformationLabel("First Name:", "")
         self.firstname.data.setStyleSheet("color: #000000;" "font-size: 22px;" "font-weight: 600;")
         self.lastname = InformationLabel("Last Name:", "")
@@ -80,13 +84,13 @@ class ProfilePage(Route):
         self.email = InformationLabel("Email:", "")
         self.email.data.setStyleSheet("color: #000000;" "font-size: 22px;" "font-weight: 600;")
 
-        self.layout = QVBoxLayout(self)
+        self.layout = QVBoxLayout()
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
-        self.layout.setSpacing(20)
-        self.layout.setContentsMargins(0, 150, 0, 0)
 
-        self.layout.addWidget(self.profilepicture, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.setSpacing(20)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+
+        self.layout.addWidget(self.profilePicture, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.firstname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.firstname.data, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.lastname, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -99,7 +103,107 @@ class ProfilePage(Route):
         self.setLayout(self.layout)
 
     def update(self):
-        self.firstname.data.setText(globalVars.user.firstName)
-        self.lastname.data.setText(globalVars.user.lastName)
-        # self.classes.data.setText(globalVars.user.classes)
-        self.email.data.setText(globalVars.user.email)
+        self.firstname.data.setText(stores.user.firstName)
+        self.lastname.data.setText(stores.user.lastName)
+        self.classes.data.setText(' '.join([obj['name'] for obj in stores.user.classes]))
+        self.email.data.setText(stores.user.email)
+
+
+class ProfilePage(Route):
+    def __init__(self, parent):
+        super().__init__()
+
+        self.parent = parent
+        self.mainLayout = QVBoxLayout()
+        self.mainLayout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mainLayout.setContentsMargins(32, 32, 0, 0)
+
+        self.mainWidget = ProfileWidget(self)
+
+        self.scrollArea = QScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setWidget(self.mainWidget)
+
+        self.title = QLabel("Mon profil")
+        self.title.setStyleSheet("""
+            QLabel {
+                font-size: 30px;
+                font-weight: 600;
+                color: #292929;
+            }
+        """)
+
+        self.mainLayout.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.mainLayout.addWidget(self.scrollArea)
+
+        self.setLayout(self.mainLayout)
+
+        self.scrollArea.setStyleSheet("""
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 14px;
+                margin: 0px 0px 0px 0px;
+                border-radius: 7px;
+            }
+            QScrollBar::handle:vertical {
+                background: #FFD2D5;
+                border-radius: 7px;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: #f0f0f0;
+                height: 0px;
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: #f0f0f0;
+                height: 0px;
+                subcontrol-position: top;
+                subcontrol-origin: margin;
+            }
+            QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                width: 14px;
+                margin: 0px 0px 0px 0px;
+                border-radius: 7px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #FFD2D5;
+                border-radius: 7px;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 0px;
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 0px;
+                subcontrol-position: top;
+                subcontrol-origin: margin;
+            }
+            QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: none;
+            }
+        """)
+
+    def update(self):
+        self.mainWidget.update()
