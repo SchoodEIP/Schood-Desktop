@@ -147,7 +147,6 @@ class HelpNumbersWidget(QWidget):
         self.helpNumber = stores.helpNumbers.get_selected()
         self.infoBox.update()
         self.descriptionBox.update()
-        print(self.helpNumber)
 
 
 class HelpNumber(Route):

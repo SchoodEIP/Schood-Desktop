@@ -1,6 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent
+from PySide6.QtWidgets import QLineEdit
 
 from src.components.Button import Button
 from src.router.Route import Route
@@ -21,7 +22,7 @@ class TextInput(QtWidgets.QLineEdit):
 
 
 class LabeledInput(QtWidgets.QWidget):
-    def __init__(self, placeholder=""):
+    def __init__(self, placeholder="", password=False):
         super().__init__()
 
         self.inputLayout = QtWidgets.QVBoxLayout()
@@ -31,6 +32,8 @@ class LabeledInput(QtWidgets.QWidget):
                                  "font-size: 22px;"
                                  "font-weight: 600;")
         self.input = TextInput(placeholder)
+        if password:
+            self.input.setEchoMode(QLineEdit.Password)
         self.inputLayout.addWidget(self.label, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.inputLayout.addWidget(self.input, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.setLayout(self.inputLayout)
@@ -55,7 +58,7 @@ class LoginPage(Route):
 
         self.logo = Image()
         self.email = LabeledInput("email")
-        self.password = LabeledInput("mot de passe")
+        self.password = LabeledInput("mot de passe", True)
         self.forgotPassword = Button(text="Mot de passe oublié ? Cliquez ici", style_sheet="""
                     QPushButton {
                         background-color: #FFFFFF;
