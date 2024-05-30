@@ -158,11 +158,12 @@ class Router(QtWidgets.QMainWindow):
         self.update_routes()
 
     def reset_routes(self):
-        for widget in self.widgets[1:]:
+        for widget in self.widgets[2:]:
             self.routes.removeWidget(widget)
-        self.widgets = [self.widgets[0]]
+        self.widgets = [self.widgets[0], self.widgets[1]]
         self.indexes.clear()
         self.indexes["/login"] = 0
+        self.indexes["/profile"] = 1
 
     def disconnect_user(self):
         stores.user.disconnect_user()
