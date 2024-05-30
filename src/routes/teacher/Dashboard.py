@@ -11,25 +11,29 @@ class TeacherDashboard(Route):
         self.parent = parent
         self.mainLayout = QtWidgets.QHBoxLayout()
         self.mainLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.mainLayout.setContentsMargins(0, 0, 0, 0)
+        self.mainLayout.setContentsMargins(32, 32, 0, 0)
 
         self.mainWidget = QtWidgets.QWidget()
         self.mainWidget.setStyleSheet("color: #000000")
 
         self.subLayout = QtWidgets.QVBoxLayout()
-        self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
 
-        self.fullName = QtWidgets.QLabel("")
-        self.text = QtWidgets.QLabel("Teacher dashboard")
+        self.firstname = QtWidgets.QLabel("Bonjour " + stores.user.firstName)
+        self.firstname.setStyleSheet("color: #000000")
+        self.text = QtWidgets.QLabel("Pas de données à afficher pour le moment.")
+        self.text.setStyleSheet("color: #000000")
+        
+        self.title = QtWidgets.QLabel(self.firstname.text())
+        self.title.setStyleSheet("font-size: 32px;" "font-weight: 600;" "color: #000000")
 
-        self.subLayout.addWidget(self.fullName)
-        self.subLayout.addWidget(self.text)
+        self.subLayout.addWidget(self.title)
 
         self.mainWidget.setLayout(self.subLayout)
-
         self.mainLayout.addWidget(self.mainWidget)
+        self.mainLayout.addWidget(self.text)
 
         self.setLayout(self.mainLayout)
 
     def update(self):
-        self.fullName.setText(stores.user.firstName + " " + stores.user.lastName)
+        self.firstname.setText(stores.user.firstName)

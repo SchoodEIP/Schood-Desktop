@@ -18,15 +18,15 @@ class StudentDashboard(Route):
         self.subLayout = QtWidgets.QVBoxLayout()
         self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
 
-        self.firstname = QtWidgets.QLabel("Bonjour " + stores.user.firstName + " ,comment te sens-tu aujourd'hui?")
-        self.fullName = QtWidgets.QLabel("")
+        self.firstname = QtWidgets.QLabel("Bonjour " + stores.user.firstName + ", comment te sens-tu aujourd'hui?")
+        self.firstname.setStyleSheet("color: #000000")
         self.text = QtWidgets.QLabel("Pas de données à afficher pour le moment.")
+        self.text.setStyleSheet("color: #000000")
         
         self.title = QtWidgets.QLabel(self.firstname.text())
         self.title.setStyleSheet("font-size: 32px;" "font-weight: 600;" "color: #000000")
 
         self.subLayout.addWidget(self.title)
-        self.subLayout.addWidget(self.fullName)
 
         self.mainWidget.setLayout(self.subLayout)
         self.mainLayout.addWidget(self.mainWidget)
