@@ -7,6 +7,8 @@ from src.components.shared.HelpNumber import HelpNumber
 from src.components.shared.HelpNumberCategories import HelpNumberCategories
 from src.components.shared.HelpNumbers import HelpNumbers
 from src.components.student.Sidebar import StudentSidebar
+from src.components.student.SurveyList import SurveyList
+from src.components.student.Survey import Survey
 from src.components.teacher.Sidebar import TeacherSidebar
 from src.routes.shared.LoginPage import LoginPage
 from src.routes.shared.ProfilePage import ProfilePage
@@ -109,6 +111,10 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/helpNumbers"] = 4
         self.widgets.append(HelpNumber(self))
         self.indexes["/helpNumber"] = 5
+        self.widgets.append(SurveyList(self))
+        self.indexes["/questionnaires"] = 6
+        self.widgets.append(Survey(self))
+        self.indexes["/questions"] = 7
 
         self.update_routes()
 
@@ -124,6 +130,8 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/helpNumbers"] = 4
         self.widgets.append(HelpNumber(self))
         self.indexes["/helpNumber"] = 5
+        # self.widgets.append(HelpNumber(self))
+        # self.indexes["/helpNumber"] = 6
 
         self.update_routes()
 

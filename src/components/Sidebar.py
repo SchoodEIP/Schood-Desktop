@@ -358,7 +358,7 @@ class StudentLayout(Layout):
         self.questionnaires = IconTextWidget(self,
                                              images_path("file.svg"),
                                              "Mes questionnaires",
-                                             lambda: self.parent.parent.go_to("/test"))
+                                             lambda: self.parent.parent.go_to("/questionnaires"))
         self.stats = IconTextWidget(self,
                                     images_path("chart.svg"),
                                     "Mes statistiques",
@@ -387,7 +387,7 @@ class StudentLayout(Layout):
         self.current = self.home
 
         self.messages.set_disable(True)
-        self.questionnaires.set_disable(True)
+        # self.questionnaires.set_disable(True)
         self.stats.set_disable(True)
         self.moods.set_disable(True)
         self.alerts.set_disable(True)
