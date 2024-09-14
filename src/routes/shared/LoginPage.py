@@ -46,7 +46,7 @@ class Image(QtWidgets.QLabel):
         self.logoImage = QtGui.QPixmap(images_path("logo_schood.png"))
         self.setPixmap(self.logoImage)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.setFixedHeight(247)
+        self.setFixedHeight(227)
         self.setFixedWidth(356)
 
 
@@ -107,8 +107,10 @@ class LoginPage(Route):
     @QtCore.Slot()
     def login(self):
         try:
-            email = self.email.input.text()
-            password = self.password.input.text()
+            # email = self.email.input.text()
+            # password = self.password.input.text()
+            email = "alice.johnson.Schood1@schood.fr"
+            password = "Alice_123"
 
             if len(email) == 0 or len(password) == 0:
                 self.errorText.setText("L'email ou le mot de passe est vide.")

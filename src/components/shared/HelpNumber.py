@@ -1,10 +1,11 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QSizePolicy
+from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QPixmap, QColor
+from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy, QGraphicsDropShadowEffect
 
+from src.utils.ressources import load_image
 from src.components.Button import Button
 from src.router.Route import Route
 from src.stores import stores
-
 
 class InfoBox(QWidget):
     def __init__(self, parent):
@@ -21,67 +22,76 @@ class InfoBox(QWidget):
 
         self.setStyleSheet("""
             QWidget {
-                border: 4px solid #4F23E2;
-                border-radius: 24px;
+                border: solid #ffffff;
+                border-radius: 26px;
             }
         """)
+
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setBlurRadius(15)
+        shadow.setOffset(0, 5)
+        shadow.setColor(QColor("#9699FF"))
+        self.setGraphicsEffect(shadow)
 
         self.title = QLabel("")
         self.title.setStyleSheet("""
             QLabel {
-                font-size: 40px;
+                font-size: 30px;
                 font-weight: 600;
+                color: #292929;
+                border: none;
+            }
+        """)
+
+        self.description = QLabel("")
+        self.description.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: 600;
+                color: #292929;
                 border: none;
             }
         """)
 
         self.fieldStyleSheet = """
-            QLabel {
+            QLabel { 
                 font-size: 18px;
                 font-weight: 600;
-                color: #4F23E2;
-                border: none;
-            }
-        """
-        self.labelStyleSheet = """
-            QLabel {
-                font-size: 18px;
-                font-weight: 600;
-                color: #000000;
+                color: #292929;
                 border: none;
             }
         """
 
-        self.address = QLabel("-")
-        self.addressLabel = QLabel("Adresse")
-        self.phone = QLabel("-")
-        self.phoneLabel = QLabel("Numéro de téléphone")
-        self.hours = QLabel("-")
-        self.hoursLabel = QLabel("Horaires")
-        self.infos = QLabel("-")
-        self.infosLabel = QLabel("informations")
+        self.locationIcon = self.resize_icon(load_image("location-dot-solid.svg"), QSize(20, 20))
+        self.phoneIcon = self.resize_icon(load_image("phone-solid.svg"), QSize(20, 20))
+        self.hourIcon = self.resize_icon(load_image("clock-solid.svg"), QSize(20, 20))
+
+        self.address = QLabel("Aucune information donnée")
+        self.phone = QLabel("Aucune information donnée")
+        self.hours = QLabel("Aucune information donnée")
         self.address.setStyleSheet(self.fieldStyleSheet)
         self.phone.setStyleSheet(self.fieldStyleSheet)
         self.hours.setStyleSheet(self.fieldStyleSheet)
-        self.infos.setStyleSheet(self.fieldStyleSheet)
-        self.addressLabel.setStyleSheet(self.labelStyleSheet)
-        self.hoursLabel.setStyleSheet(self.labelStyleSheet)
-        self.infosLabel.setStyleSheet(self.labelStyleSheet)
-        self.phoneLabel.setStyleSheet(self.labelStyleSheet)
+
+        addressLayout = QHBoxLayout()
+        addressLayout.addWidget(self.locationIcon)
+        addressLayout.addWidget(self.address)
+
+        phoneLayout = QHBoxLayout()
+        phoneLayout.addWidget(self.phoneIcon)
+        phoneLayout.addWidget(self.phone)
+
+        hoursLayout = QHBoxLayout()
+        hoursLayout.addWidget(self.hourIcon)
+        hoursLayout.addWidget(self.hours)
 
         self.componentLayout.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignCenter)
         self.componentLayout.addSpacing(48)
-        self.componentLayout.addWidget(self.phoneLabel)
-        self.componentLayout.addWidget(self.phone)
+        self.componentLayout.addWidget(self.description, alignment=Qt.AlignmentFlag.AlignCenter)
         self.componentLayout.addSpacing(24)
-        self.componentLayout.addWidget(self.hoursLabel)
-        self.componentLayout.addWidget(self.hours)
-        self.componentLayout.addSpacing(24)
-        self.componentLayout.addWidget(self.infosLabel)
-        self.componentLayout.addWidget(self.infos)
-        self.componentLayout.addSpacing(24)
-        self.componentLayout.addWidget(self.addressLabel)
-        self.componentLayout.addWidget(self.address)
+        self.componentLayout.addLayout(addressLayout)
+        self.componentLayout.addLayout(phoneLayout)
+        self.componentLayout.addLayout(hoursLayout)
 
         self.component.setLayout(self.componentLayout)
 
@@ -89,31 +99,21 @@ class InfoBox(QWidget):
 
         self.setLayout(self.layout)
 
+    def resize_icon(self, label, size):
+        """ Resize the icon QLabel to the specified size """
+        pixmap = label.pixmap()
+        if pixmap:
+            pixmap = pixmap.scaled(size, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            label.setPixmap(pixmap)
+        return label
+    
     def update(self):
         self.title.setText(self.parent.helpNumber["name"])
+        self.description.setText(self.parent.helpNumber["description"])
         if "telephone" in self.parent.helpNumber:
             self.phone.setText(self.parent.helpNumber["telephone"])
         if "email" in self.parent.helpNumber:
             self.phone.setText(self.parent.helpNumber["email"])
-
-
-class DescriptionBox(QLabel):
-    def __init__(self, parent):
-        super().__init__()
-
-        self.parent = parent
-        self.setStyleSheet("""
-            QLabel {
-                border: 4px solid #4F23E2;
-                border-radius: 24px;
-                font-size: 16px;
-                font-weight: 600;
-            }
-        """)
-        self.setWordWrap(True)
-
-    def update(self):
-        self.setText(self.parent.helpNumber["description"] if "description" in self.parent.helpNumber else "-")
 
 
 class HelpNumbersWidget(QWidget):
@@ -122,7 +122,7 @@ class HelpNumbersWidget(QWidget):
 
         self.parent = parent
 
-        self.setStyleSheet("color: #000000;")
+        self.setStyleSheet("color: #292929;")
 
         self.layout = QGridLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -131,22 +131,14 @@ class HelpNumbersWidget(QWidget):
 
         self.helpNumber = None
         self.infoBox = InfoBox(self)
-        self.descriptionBox = DescriptionBox(self)
 
-        self.layout.addWidget(self.infoBox, 0, 0)
-        self.layout.addWidget(self.descriptionBox, 0, 1)
-
-        self.layout.setColumnStretch(0, 1)
-        self.layout.setColumnStretch(1, 1)
-
-        self.layout.setRowStretch(0, 1)
+        self.layout.addWidget(self.infoBox)
 
         self.setLayout(self.layout)
 
     def update(self):
         self.helpNumber = stores.helpNumbers.get_selected()
         self.infoBox.update()
-        self.descriptionBox.update()
 
 
 class HelpNumber(Route):
@@ -189,7 +181,6 @@ class HelpNumber(Route):
 
         self.mainLayout.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignLeft)
         self.mainLayout.addSpacing(32)
-        self.mainLayout.addWidget(self.backButton, alignment=Qt.AlignmentFlag.AlignLeft)
         self.mainLayout.addWidget(self.scrollArea)
 
         self.setLayout(self.mainLayout)

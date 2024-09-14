@@ -1,34 +1,38 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout
+from PySide6.QtWidgets import QScrollArea, QWidget, QLabel, QVBoxLayout
 
 from src.components.Button import Button
 from src.router.Route import Route
 from src.stores import stores
 
 
-class HelpNumberButton(Button):
+class HelpNumberItem(QWidget):
     def __init__(self, parent, text, _id, callback):
-        super().__init__(parent=parent, text=text)
+        super().__init__(parent=parent)
 
         self._id = _id
-        self.setStyleSheet("""
-            QPushButton {
+        self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        
+        self.label = QLabel(text)
+        self.label.setStyleSheet("""
+            QLabel {
                 background-color: #FFFFFF;
                 color: #4F23E2;
-                border: 4px solid #4F23E2;
-                font-size: 20px;
+                font-size: 22px;
                 font-weight: 600;
                 padding: 12px;
-                border-radius: 16px;
+                border-radius: 7px;
             }
-
-            QPushButton::hover {
-                background-color: #4F23E2;
+                                 
+            QLabel::hover {
+                background-color: #9699FF;
                 color: #FFFFFF;
             }
         """)
+        self.layout.addWidget(self.label)
 
-        self.clicked.connect(lambda: callback(self._id))
+        self.label.mousePressEvent = lambda event: callback(self._id)
 
 
 class HelpNumbersWidget(QWidget):
@@ -38,17 +42,15 @@ class HelpNumbersWidget(QWidget):
         self.parent = parent
 
         self.setStyleSheet("color: #000000")
-        self.number_columns = 3
-
         self.helpNumbers: [str, {str, QWidget}] = {}
+        self.items = []  # List to store HelpNumberItem instances
 
-        self.layout = QGridLayout()
-        self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout = QVBoxLayout()
+        self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.layout.setContentsMargins(32, 32, 128, 128)
-        self.layout.setSpacing(32)
         self.noItem = QLabel("Aucun numéro d'aide n'a été trouvé")
 
-        self.layout.addWidget(self.noItem, 0, 0)
+        self.layout.addWidget(self.noItem)
 
         self.setLayout(self.layout)
 
@@ -61,15 +63,13 @@ class HelpNumbersWidget(QWidget):
             self.noItem.show()
             return
 
-        for index, helpNumber in enumerate(help_numbers):
-            row = index // self.number_columns
-            col = index % self.number_columns
-            widget: HelpNumberButton = HelpNumberButton(self, helpNumber["name"], helpNumber["_id"], self.click)
-            self.helpNumbers[helpNumber["_id"]] = {"widget": widget, **helpNumber}
-            self.layout.addWidget(widget, row, col)
+        self.items = []  # Clear the list of items
 
-        for i in range(self.number_columns):
-            self.layout.setColumnStretch(i, 1)
+        for helpNumber in help_numbers:
+            item = HelpNumberItem(self, helpNumber["name"], helpNumber["_id"], self.click)
+            self.items.append(item)  # Add the item to the list
+            self.helpNumbers[helpNumber["_id"]] = {"widget": item, **helpNumber}
+            self.layout.addWidget(item)
 
     def click(self, _id):
         stores.helpNumbers.set_selected({key: value for key, value in self.helpNumbers[_id].items() if key != "widget"})
@@ -81,6 +81,7 @@ class HelpNumbersWidget(QWidget):
             self.layout.removeWidget(helpNumber["widget"])
             helpNumber["widget"].deleteLater()
         self.helpNumbers.clear()
+        self.items.clear()  # Clear the items list
 
 
 class HelpNumbers(Route):
@@ -122,7 +123,6 @@ class HelpNumbers(Route):
         """)
 
         self.mainLayout.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignLeft)
-        self.mainLayout.addSpacing(32)
         self.mainLayout.addWidget(self.backButton, alignment=Qt.AlignmentFlag.AlignLeft)
         self.mainLayout.addWidget(self.scrollArea)
 
