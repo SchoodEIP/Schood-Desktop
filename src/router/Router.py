@@ -2,10 +2,18 @@ from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon
 
 from src.components.adm.Sidebar import AdmSidebar
+from src.components.admin.CreateAccountAdmin import CreateAccountAdmin
+from src.components.admin.ManageUsersAdmin import ManageUsersAdmin
 from src.components.admin.Sidebar import AdminSidebar
+from src.components.admin.UpdateProfileAdmin import UpdateProfileAdmin
+from src.components.shared.CreateAccount import CreateAccount
+from src.components.shared.CreateAccountDialog import CreateAccountDialog
+from src.components.shared.DeleteAccountDialog import DeleteAccountDialog
 from src.components.shared.HelpNumber import HelpNumber
 from src.components.shared.HelpNumberCategories import HelpNumberCategories
 from src.components.shared.HelpNumbers import HelpNumbers
+from src.components.adm.ManageUsersAdm import ManageUsersAdm
+from src.components.shared.UpdateProfile import UpdateProfile
 from src.components.student.Sidebar import StudentSidebar
 from src.components.teacher.Sidebar import TeacherSidebar
 from src.routes.shared.LoginPage import LoginPage
@@ -17,7 +25,6 @@ from src.routes.admin.Dashboard import AdminDashboard
 from src.components.Sidebar import Sidebar
 from src.stores import stores
 from src.utils.ressources import images_path
-from src.routes.student.Test import StudentTest
 
 
 class Router(QtWidgets.QMainWindow):
@@ -139,6 +146,16 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/helpNumbers"] = 4
         self.widgets.append(HelpNumber(self))
         self.indexes["/helpNumber"] = 5
+        self.widgets.append(ManageUsersAdm(self))
+        self.indexes["/manage"] = 6
+        self.widgets.append(CreateAccountDialog(self))
+        self.indexes["/createAccountDialog"] = 7
+        self.widgets.append(CreateAccount(self))
+        self.indexes["/updateProfileButton"] = 8
+        self.widgets.append(UpdateProfile(self))
+        self.indexes["/updateProfile"] = 9
+        self.widgets.append(DeleteAccountDialog(self))
+        self.indexes["/deleteAccountDialog"] = 10
 
         self.update_routes()
 
@@ -154,6 +171,16 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/helpNumbers"] = 4
         self.widgets.append(HelpNumber(self))
         self.indexes["/helpNumber"] = 5
+        self.widgets.append(ManageUsersAdmin(self))
+        self.indexes["/manage"] = 6
+        self.widgets.append(CreateAccountDialog(self))
+        self.indexes["/createAccountDialog"] = 7
+        self.widgets.append(CreateAccountAdmin(self))
+        self.indexes["/updateProfileButton"] = 8
+        self.widgets.append(UpdateProfileAdmin(self))
+        self.indexes["/updateProfile"] = 9
+        self.widgets.append(DeleteAccountDialog(self))
+        self.indexes["/deleteAccountDialog"] = 10
 
         self.update_routes()
 

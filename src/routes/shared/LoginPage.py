@@ -119,8 +119,8 @@ class LoginPage(Route):
                 "password": password
             }
             # data = {
-            #     "email": "pierre.dubois.Schood1@schood.fr",
-            #     "password": "Pierre_123"
+            #     "email": "admin.Schood1@schood.fr",
+            #     "password": "admin_123"
             # }
             res = stores.request.post("/user/login", data=data)
             if res.status_code == 200:
