@@ -11,21 +11,6 @@ class HelpNumberInfo:
     def __init__(self, help_number_info_content: QLabel):
         # This QLabel will be updated with number info
         self.help_number_info_content = help_number_info_content
-    #     self.apply_styles()
-
-    # def apply_styles(self):
-    #     # Apply its own stylesheet
-    #     self.setStyleSheet("""
-    #         QLabel {
-    #             background-color: #FFFFFF;
-    #             color: #4F23E2;
-    #             font-size: 20px;
-    #             font-weight: bold;
-    #             padding: 10px;
-    #             border: 2px solid #4F23E2;
-    #             border-radius: 7px;
-    #         }
-    #     """)
 
     def clear_display(self):
         # Clears the QLabel content
@@ -38,15 +23,28 @@ class HelpNumberInfo:
     def display_number_info(self, number_info):
         name = number_info.get('name', 'N/A')
         phone = number_info.get('telephone', 'N/A')
-        email = number_info.get('email', 'N/A')
+
         description = number_info.get('description', 'No description available')
+        hours = number_info.get('hours', 'N/A')
+
+        phone_icon_svg = "src/images/phone-solid.svg"
+        hour_icon_svg = "src/images/clock-solid.svg"
 
         help_details = f"""
         <p>
-            <span style="font-size: 40px; font-weight: bold;">{name}</span> <br>
-            <span style="font-size: 28px;">{description}</span> <br>
-            Telephone: {phone} <br>
-            Email: {email}
+            <span style="font-size: 30px; font-weight: medium;">{name}</span> <br>
+
+            <span style="font-size: 22px;">{description}</span> <br>
+            
+            <span style="font-size: 22px;">
+                <img src="{phone_icon_svg}" width="18" height="18" style="vertical-align: middle;"> 
+                {phone}
+            </span> <br>
+
+            <span style="font-size: 22px;">
+                <img src="{hour_icon_svg}" width="18" height="18" style="vertical-align: middle;"> 
+                {hours}
+            </span> <br>
         </p>
         """
 
@@ -60,20 +58,6 @@ class HelpNumberList:
         self.categories = categories
         self.help_number_list_box = help_number_list_box
         self.help_number_info = HelpNumberInfo(help_number_info_content)
-    #     self.apply_styles()
-
-    # def apply_styles(self):
-    #     # Apply its own stylesheet for service displayer specific elements
-    #     self.help_number_info.setStyleSheet("""
-    #         QLabel {
-    #             background-color: #FFFFFF;
-    #             color: #292929;
-    #             font-size: 18px;
-    #             padding: 12px;
-    #             border: 2px solid #FF0000;
-    #             border-radius: 7px;
-    #         }
-    #     """)
 
     def handle_click(self, _id):
         if _id not in self.categories:
@@ -153,7 +137,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.parent = parent
 
         self.setStyleSheet("color: #292929")
-        self.number_columns = 5
+        self.number_columns = 3
         self.categories = {}
 
         self.helpNumbersLayout = QVBoxLayout()
@@ -169,6 +153,8 @@ class HelpNumberCategoriesWidget(QWidget):
         self.setLayout(self.layout)
 
         self.help_number_list_box = QVBoxLayout()
+        self.help_number_list_box.setSpacing(0)
+        self.help_number_list_box.setContentsMargins(0, 0, 0, 0)
 
         self.help_numbers_scroll = QScrollArea()
         self.help_numbers_scroll.setWidgetResizable(True)
@@ -194,10 +180,10 @@ class HelpNumberCategoriesWidget(QWidget):
         
         self.help_number_info = QWidget()
         self.help_number_info.setLayout(self.help_number_list_box)
-        self.help_number_info.setFixedSize(190, 620)
+        self.help_number_info.setFixedSize(390, 620)
         self.help_number_info.setStyleSheet("""
             background-color: #ffffff;
-            border: 2px solid #4F23E2;
+            border: 2px solid #4F23E2;ma
             border-radius: 7px;       
         """)
 
@@ -219,7 +205,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_layout.addWidget(self.help_number_info_content)
 
         self.number_info.setLayout(self.help_number_layout)
-        self.number_info.setFixedSize(900, 620)
+        self.number_info.setFixedSize(700, 620)
 
         # Initialize the HelpNumberList with the necessary data
         self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_content)
