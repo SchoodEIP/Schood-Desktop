@@ -5,13 +5,11 @@ from src.components.adm.Sidebar import AdmSidebar
 from src.components.admin.CreateAccountAdmin import CreateAccountAdmin
 from src.components.admin.ManageUsersAdmin import ManageUsersAdmin
 from src.components.admin.Sidebar import AdminSidebar
+from src.components.shared.HelpNumberCategories import HelpNumberCategories
 from src.components.admin.UpdateProfileAdmin import UpdateProfileAdmin
 from src.components.shared.CreateAccount import CreateAccount
 from src.components.shared.CreateAccountDialog import CreateAccountDialog
 from src.components.shared.DeleteAccountDialog import DeleteAccountDialog
-from src.components.shared.HelpNumber import HelpNumber
-from src.components.shared.HelpNumberCategories import HelpNumberCategories
-from src.components.shared.HelpNumbers import HelpNumbers
 from src.components.adm.ManageUsersAdm import ManageUsersAdm
 from src.components.shared.UpdateProfile import UpdateProfile
 from src.components.student.Sidebar import StudentSidebar
@@ -112,10 +110,7 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        self.widgets.append(HelpNumbers(self))
-        self.indexes["/helpNumbers"] = 4
-        self.widgets.append(HelpNumber(self))
-        self.indexes["/helpNumber"] = 5
+
 
         self.update_routes()
 
@@ -127,10 +122,7 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        self.widgets.append(HelpNumbers(self))
-        self.indexes["/helpNumbers"] = 4
-        self.widgets.append(HelpNumber(self))
-        self.indexes["/helpNumber"] = 5
+
 
         self.update_routes()
 
@@ -142,10 +134,6 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        self.widgets.append(HelpNumbers(self))
-        self.indexes["/helpNumbers"] = 4
-        self.widgets.append(HelpNumber(self))
-        self.indexes["/helpNumber"] = 5
         self.widgets.append(ManageUsersAdm(self))
         self.indexes["/manage"] = 6
         self.widgets.append(CreateAccountDialog(self))
@@ -167,10 +155,6 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        self.widgets.append(HelpNumbers(self))
-        self.indexes["/helpNumbers"] = 4
-        self.widgets.append(HelpNumber(self))
-        self.indexes["/helpNumber"] = 5
         self.widgets.append(ManageUsersAdmin(self))
         self.indexes["/manage"] = 6
         self.widgets.append(CreateAccountDialog(self))

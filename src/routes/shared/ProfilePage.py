@@ -25,7 +25,7 @@ class ProfilePicture(QWidget):
             }
         """)
 
-        self.setFixedHeight(200)
+        self.setFixedHeight(300)
 
         self.picture = QLabel()
         self.imageProfile = QPixmap()
@@ -33,7 +33,7 @@ class ProfilePicture(QWidget):
         self.picture.setStyleSheet("""
             QWidget {
                 color: #4F23E2;
-                font-weight: 600;
+                font-weight: 400;
                 font-size: 25px;
                 padding: 0px
             }
@@ -75,19 +75,21 @@ class ProfileWidget(QWidget):
         self.parent = parent
 
         self.profilePicture = ProfilePicture()
-        self.firstname = InformationLabel("First Name:", "")
-        self.firstname.data.setStyleSheet("color: #000000;" "font-size: 22px;" "font-weight: 600;")
-        self.lastname = InformationLabel("Last Name:", "")
-        self.lastname.data.setStyleSheet("color: #000000;" "font-size: 22px;" "font-weight: 600;")
+        self.firstname = InformationLabel("Prénom:", "")
+        self.firstname.data.setStyleSheet("color: #292929;" "font-size: 22px;" "font-weight: 400;")
+        self.firstname.data.setContentsMargins(0, 0, 0, 20)
+        self.lastname = InformationLabel("Nom:", "")
+        self.lastname.data.setStyleSheet("color: #292929;" "font-size: 22px;" "font-weight: 400;")
+        self.lastname.data.setContentsMargins(0, 0, 0, 20)
         self.classes = InformationLabel("Classe:", "")
-        self.classes.data.setStyleSheet("color: #000000;" "font-size: 22px;" "font-weight: 600;")
+        self.classes.data.setStyleSheet("color: #292929;" "font-size: 22px;" "font-weight: 400;")
+        self.classes.data.setContentsMargins(0, 0, 0, 20)
         self.email = InformationLabel("Email:", "")
-        self.email.data.setStyleSheet("color: #000000;" "font-size: 22px;" "font-weight: 600;")
+        self.email.data.setStyleSheet("color: #292929;" "font-size: 22px;" "font-weight: 400;")
 
         self.layout = QVBoxLayout()
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        self.layout.setSpacing(20)
         self.layout.setContentsMargins(0, 0, 0, 0)
 
         self.layout.addWidget(self.profilePicture, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -127,7 +129,7 @@ class ProfilePage(Route):
         self.title = QLabel("Mon profil")
         self.title.setStyleSheet("""
             QLabel {
-                font-size: 30px;
+                font-size: 32px;
                 font-weight: 600;
                 color: #292929;
             }
