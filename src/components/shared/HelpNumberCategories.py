@@ -114,10 +114,11 @@ class CategoryButton(Button):
                 font-weight: 600;
                 padding: 11px;
                 border-radius: 7px;
+                border: 1px solid #4F23E2;
             }
             
             QPushButton::hover {
-                background-color: #9699FF;
+                background-color: #4F23E2;
                 color: #FFFFFF;
             }
         """)

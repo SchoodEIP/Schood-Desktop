@@ -15,7 +15,7 @@ class TextInput(QtWidgets.QLineEdit):
         self.setFixedHeight(46)
         self.setFixedWidth(300)
         self.setStyleSheet("background-color: #EAEAEA;"
-                           "color: #FFFFFF;"
+                           "color: #292929;"
                            "border-radius: 10px;"
                            "padding-left: 16px")
         self.setPlaceholderText(placeholder)
