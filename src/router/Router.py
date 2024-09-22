@@ -105,10 +105,6 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        # self.widgets.append(HelpNumbers(self))
-        # self.indexes["/helpNumbers"] = 4
-        # self.widgets.append(HelpNumber(self))
-        # self.indexes["/helpNumber"] = 5
 
         self.update_routes()
 
@@ -120,10 +116,6 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        # self.widgets.append(HelpNumbers(self))
-        # self.indexes["/helpNumbers"] = 4
-        # self.widgets.append(HelpNumber(self))
-        # self.indexes["/helpNumber"] = 5
 
         self.update_routes()
 
@@ -135,10 +127,6 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        # self.widgets.append(HelpNumbers(self))
-        # self.indexes["/helpNumbers"] = 4
-        # self.widgets.append(HelpNumber(self))
-        # self.indexes["/helpNumber"] = 5
 
         self.update_routes()
 
@@ -150,10 +138,6 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
-        # self.widgets.append(HelpNumbers(self))
-        # self.indexes["/helpNumbers"] = 4
-        # self.widgets.append(HelpNumber(self))
-        # self.indexes["/helpNumber"] = 5
 
         self.update_routes()
 
