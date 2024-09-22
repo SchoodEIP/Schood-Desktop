@@ -75,10 +75,10 @@ class ProfileWidget(QWidget):
         self.parent = parent
 
         self.profilePicture = ProfilePicture()
-        self.firstname = InformationLabel("First Name:", "")
+        self.firstname = InformationLabel("Prénom:", "")
         self.firstname.data.setStyleSheet("color: #292929;" "font-size: 22px;" "font-weight: 400;")
         self.firstname.data.setContentsMargins(0, 0, 0, 20)
-        self.lastname = InformationLabel("Last Name:", "")
+        self.lastname = InformationLabel("Deroche:", "")
         self.lastname.data.setStyleSheet("color: #292929;" "font-size: 22px;" "font-weight: 400;")
         self.lastname.data.setContentsMargins(0, 0, 0, 20)
         self.classes = InformationLabel("Classe:", "")
