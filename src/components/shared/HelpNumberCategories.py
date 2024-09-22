@@ -110,9 +110,9 @@ class CategoryButton(Button):
             QPushButton {
                 background-color: #FFFFFF;
                 color: #4F23E2;
-                font-size: 22px;
+                font-size: 21px;
                 font-weight: 600;
-                padding: 12px;
+                padding: 11px;
                 border-radius: 7px;
             }
             
@@ -177,7 +177,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_info.setFixedSize(390, 620)
         self.help_number_info.setStyleSheet("""
             background-color: #ffffff;
-            border: 2px solid #4F23E2;
+            border: 1px solid #4F23E2;
             border-radius: 7px;       
         """)
 
@@ -186,7 +186,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.number_info = QWidget()
         self.number_info.setStyleSheet("""
             background-color: #ffffff;
-            border: 2px solid #4F23E2;
+            border: 1px solid #4F23E2;
             border-radius: 7px;
         """)
 
@@ -245,7 +245,7 @@ class HelpNumberCategories(Route):
         self.title = QLabel("Mes catégories de numéro d'aide")
         self.title.setStyleSheet("""
             QLabel {
-                font-size: 32px;
+                font-size: 31px;
                 font-weight: 600;
                 color: #292929;
             }
