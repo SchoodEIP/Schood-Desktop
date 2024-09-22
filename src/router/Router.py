@@ -3,9 +3,7 @@ from PySide6.QtGui import QIcon
 
 from src.components.adm.Sidebar import AdmSidebar
 from src.components.admin.Sidebar import AdminSidebar
-from src.components.shared.HelpNumber import HelpNumber
 from src.components.shared.HelpNumberCategories import HelpNumberCategories
-from src.components.shared.HelpNumbers import HelpNumbers
 from src.components.student.Sidebar import StudentSidebar
 from src.components.teacher.Sidebar import TeacherSidebar
 from src.routes.shared.LoginPage import LoginPage
@@ -106,6 +104,7 @@ class Router(QtWidgets.QMainWindow):
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
 
+
         self.update_routes()
 
     def init_teacher_routes(self):
@@ -116,6 +115,7 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
+
 
         self.update_routes()
 
@@ -128,6 +128,7 @@ class Router(QtWidgets.QMainWindow):
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
 
+
         self.update_routes()
 
     def init_admin_routes(self):
@@ -138,6 +139,7 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/"] = 2
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
+
 
         self.update_routes()
 
