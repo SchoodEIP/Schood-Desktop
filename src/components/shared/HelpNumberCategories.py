@@ -6,53 +6,52 @@ from src.router.Route import Route
 from src.stores import stores
 
 
-# Class for displaying number info with its own setStyleSheet
 class HelpNumberInfo:
     def __init__(self, help_number_info_content: QLabel):
-        # This QLabel will be updated with number info
         self.help_number_info_content = help_number_info_content
 
     def clear_display(self):
-        # Clears the QLabel content
         self.help_number_info_content.setText("Sélectionnez une aide")
 
     def setStyleSheet(self, style: str):
-        # Set the stylesheet for the help_number_info_content QLabel
         self.help_number_info_content.setStyleSheet(style)
 
     def display_number_info(self, number_info):
-        name = number_info.get('name', 'N/A')
-        phone = number_info.get('telephone', 'N/A')
+        description = number_info.get('description', 'Description indisponible')
+        location = number_info.get('location', 'Information indisponible')
+        name = number_info.get('name', 'Information indisponible')
+        phone = number_info.get('telephone', 'Information indisponible')
+        hours = number_info.get('hours', 'Information indisponible')
 
-        description = number_info.get('description', 'No description available')
-        hours = number_info.get('hours', 'N/A')
-
+        location_icon_svg = "src/images/location-dot-solid.svg"
         phone_icon_svg = "src/images/phone-solid.svg"
         hour_icon_svg = "src/images/clock-solid.svg"
 
         help_details = f"""
-        <p>
-            <span style="font-size: 30px; font-weight: medium;">{name}</span> <br>
+        <div style="margin: 20px;">
+            <p style="font-size: 30px; font-weight: bold; text-align: center; margin-bottom: 50px;">{name}</p>
 
-            <span style="font-size: 22px;">{description}</span> <br>
-            
-            <span style="font-size: 22px;">
-                <img src="{phone_icon_svg}" width="18" height="18" style="vertical-align: middle;"> 
+            <p style="font-size: 16px; text-align: left; margin-bottom: 50px;">{description}</p>
+
+            <p style="font-size: 16px; text-align: left; margin-bottom: 10px;">
+                <img src="{location_icon_svg}" width="18" height="18" style="vertical-align: middle; margin-right: 40px;">
+                {location}
+            </p>
+
+            <p style="font-size: 16px; text-align: left; margin-bottom: 20px;">
+                <img src="{phone_icon_svg}" width="18" height="18" style="vertical-align: middle; margin-right: 40px;">
                 {phone}
-            </span> <br>
+            </p>
 
-            <span style="font-size: 22px;">
-                <img src="{hour_icon_svg}" width="18" height="18" style="vertical-align: middle;"> 
+            <p style="font-size: 16px; text-align: left;">
+                <img src="{hour_icon_svg}" width="18" height="18" style="vertical-align: middle; margin-right: 40px;">
                 {hours}
-            </span> <br>
-        </p>
+            </p>
+        </div>
         """
 
-        # Update the QLabel with the number details
         self.help_number_info_content.setText(help_details)
 
-
-# Class to handle click events and with its own setStyleSheet
 class HelpNumberList:
     def __init__(self, categories, help_number_list_box, help_number_info_content):
         self.categories = categories
@@ -69,13 +68,11 @@ class HelpNumberList:
         stores.helpNumbers.fetch_numbers(_id)
         help_numbers = stores.helpNumbers.get_numbers()
 
-        # Clear the existing widgets in the layout
         for i in reversed(range(self.help_number_list_box.count())):
             widget_to_remove = self.help_number_list_box.itemAt(i).widget()
             if widget_to_remove is not None:
                 widget_to_remove.deleteLater()
 
-        # Populate the layout with the new help numbers
         if help_numbers:
             for number_info in help_numbers:
                 help_button = Button(parent=None, text=number_info['name'])
@@ -96,16 +93,14 @@ class HelpNumberList:
                 help_button.clicked.connect(lambda _, hn=number_info: self.help_number_info.display_number_info(hn))
                 self.help_number_list_box.addWidget(help_button)
         else:
-            no_help_label = QLabel("No help numbers available")
+            no_help_label = QLabel("Liste de numéro indisponible")
             no_help_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             no_help_label.setStyleSheet("font-size: 16px; font-weight: bold;")
             self.help_number_list_box.addWidget(no_help_label)
 
-        # Clear the display until a help number is clicked
         self.help_number_info.clear_display()
 
 
-# Class for the category button
 class CategoryButton(Button):
     def __init__(self, parent, text, _id, callback):
         super().__init__(parent=parent, text=text)
@@ -130,7 +125,6 @@ class CategoryButton(Button):
         self.clicked.connect(lambda: callback(self._id))
 
 
-# Main widget class for Help Number Categories
 class HelpNumberCategoriesWidget(QWidget):
     def __init__(self, parent):
         super().__init__()
@@ -177,13 +171,13 @@ class HelpNumberCategoriesWidget(QWidget):
                 height: 0px;
             }
         """)
-        
+
         self.help_number_info = QWidget()
         self.help_number_info.setLayout(self.help_number_list_box)
         self.help_number_info.setFixedSize(390, 620)
         self.help_number_info.setStyleSheet("""
             background-color: #ffffff;
-            border: 2px solid #4F23E2;ma
+            border: 2px solid #4F23E2;
             border-radius: 7px;       
         """)
 
@@ -192,22 +186,27 @@ class HelpNumberCategoriesWidget(QWidget):
         self.number_info = QWidget()
         self.number_info.setStyleSheet("""
             background-color: #ffffff;
-            border: 2px solid #FF0000;
+            border: 2px solid #4F23E2;
             border-radius: 7px;
         """)
 
         self.help_number_layout = QVBoxLayout()
+        self.help_number_layout.setContentsMargins(0, 0, 0, 0)
 
         self.help_number_info_content = QLabel("Sélectionnez une catégorie d'aide")
         self.help_number_info_content.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.help_number_info_content.setStyleSheet("font-size: 16px;")
+        self.help_number_info_content.setStyleSheet("""
+            font-size: 16px;
+            margin: 0px;  
+            padding: 10px;
+        """)
+        self.help_number_info_content.setWordWrap(True)
 
         self.help_number_layout.addWidget(self.help_number_info_content)
 
         self.number_info.setLayout(self.help_number_layout)
         self.number_info.setFixedSize(700, 620)
 
-        # Initialize the HelpNumberList with the necessary data
         self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_content)
 
         self.update()
@@ -225,17 +224,13 @@ class HelpNumberCategoriesWidget(QWidget):
 
             self.categories[category["_id"]] = {"button": button, "name": category["name"]}
 
-            # button.setFixedSize(150, 50)
             self.layout.addWidget(button, row, col)
 
         row = (len(categories) // self.number_columns) + 1
 
-        # Add scroll area and help number widget to the layout
         self.layout.addWidget(self.help_numbers_scroll, row, 0, 1, 1)
         self.layout.addWidget(self.number_info, row, 1, 1, 3)
 
-
-# Route class for Help Number Categories
 class HelpNumberCategories(Route):
     def __init__(self, parent):
         super().__init__()
