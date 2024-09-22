@@ -1,4 +1,6 @@
-from PySide6 import QtWidgets, QtCore
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QLabel
+
 
 from src.router.Route import Route
 from src.stores import stores
@@ -8,23 +10,23 @@ class StudentDashboard(Route):
         super().__init__()
 
         self.parent = parent
-        self.mainLayout = QtWidgets.QHBoxLayout()
-        self.mainLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
-        self.mainLayout.setContentsMargins(32, 32, 0, 0)
+        self.mainLayout = QHBoxLayout()
+        self.mainLayout.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        self.mainLayout.setContentsMargins(32, 32, 32, 32)
 
-        self.mainWidget = QtWidgets.QWidget()
-        self.mainWidget.setStyleSheet("color: #000000")
+        self.mainWidget = QWidget()
+        self.mainWidget.setStyleSheet("color: #292929")
 
-        self.subLayout = QtWidgets.QVBoxLayout()
-        self.subLayout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
+        self.subLayout = QVBoxLayout()
+        self.subLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        self.firstname = QtWidgets.QLabel("Bonjour " + stores.user.firstName + ", comment te sens-tu aujourd'hui?")
-        self.firstname.setStyleSheet("color: #000000")
-        self.text = QtWidgets.QLabel("Pas de données à afficher pour le moment.")
-        self.text.setStyleSheet("color: #000000")
+        self.firstname = QLabel("Bonjour " + stores.user.firstName + ", comment te sens-tu aujourd'hui?")
+        self.firstname.setStyleSheet("color: #292929")
+        self.text = QLabel("Pas de données à afficher pour le moment.")
+        self.text.setStyleSheet("color: #292929")
         
-        self.title = QtWidgets.QLabel(self.firstname.text())
-        self.title.setStyleSheet("font-size: 32px;" "font-weight: 600;" "color: #000000")
+        self.title = QLabel(self.firstname.text())
+        self.title.setStyleSheet("font-size: 32px;" "font-weight: 600;" "color: #292929")
 
         self.subLayout.addWidget(self.title)
 

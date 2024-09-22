@@ -14,9 +14,9 @@ class TextInput(QtWidgets.QLineEdit):
         super().__init__()
         self.setFixedHeight(46)
         self.setFixedWidth(300)
-        self.setStyleSheet("background-color: #FFD2D5;"
+        self.setStyleSheet("background-color: #EAEAEA;"
                            "color: #292929;"
-                           "border-radius: 23px;"
+                           "border-radius: 10px;"
                            "padding-left: 16px")
         self.setPlaceholderText(placeholder)
 
@@ -30,7 +30,7 @@ class LabeledInput(QtWidgets.QWidget):
         self.label = QtWidgets.QLabel(placeholder.capitalize())
         self.label.setStyleSheet("color: #4F23E2;"
                                  "font-size: 22px;"
-                                 "font-weight: 600;")
+                                 "font-weight: 400;")
         self.input = TextInput(placeholder)
         if password:
             self.input.setEchoMode(QLineEdit.Password)
@@ -46,7 +46,7 @@ class Image(QtWidgets.QLabel):
         self.logoImage = QtGui.QPixmap(images_path("logo_schood.png"))
         self.setPixmap(self.logoImage)
         self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.setFixedHeight(247)
+        self.setFixedHeight(227)
         self.setFixedWidth(356)
 
 
@@ -57,8 +57,8 @@ class LoginPage(Route):
         self.parent = parent
 
         self.logo = Image()
-        self.email = LabeledInput("email")
-        self.password = LabeledInput("mot de passe", True)
+        self.email = LabeledInput("Email")
+        self.password = LabeledInput("Mot de passe", True)
         self.forgotPassword = Button(text="Mot de passe oublié ? Cliquez ici", style_sheet="""
                     QPushButton {
                         background-color: #FFFFFF;
@@ -72,7 +72,7 @@ class LoginPage(Route):
         self.loginButton = Button(text="Connexion", width=200, height=55, style_sheet="""
                     QPushButton {
                         background-color: #4F23E2;
-                        border-radius: 26px;
+                        border-radius: 10px;
                         color: #FFFFFF;
                         font-size: 22px;
                     }
@@ -87,7 +87,6 @@ class LoginPage(Route):
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMaximumSize)
-        self.layout.setSpacing(24)
         self.layout.addStretch()
         self.layout.addWidget(self.logo, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.email, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
