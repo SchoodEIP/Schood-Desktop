@@ -205,7 +205,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_layout.addWidget(self.help_number_info_content)
 
         self.number_info.setLayout(self.help_number_layout)
-        self.number_info.setFixedSize(700, 620)
+        self.number_info.setFixedSize(865, 620)
 
         self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_content)
 

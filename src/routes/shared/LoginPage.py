@@ -107,10 +107,8 @@ class LoginPage(Route):
     @QtCore.Slot()
     def login(self):
         try:
-            # email = self.email.input.text()
-            # password = self.password.input.text()
-            email = "alice.johnson.Schood1@schood.fr"
-            password = "Alice_123"
+            email = self.email.input.text()
+            password = self.password.input.text()
 
             if len(email) == 0 or len(password) == 0:
                 self.errorText.setText("L'email ou le mot de passe est vide.")
