@@ -460,7 +460,7 @@ class AdmLayout(Layout):
         self.manage = IconTextWidget(self,
                                      images_path("multiple-account.svg"),
                                      "Comptes",
-                                     lambda: self.parent.parent.go_to("/test"))
+                                     lambda: self.parent.parent.go_to("/manage"))
         self.stats = IconTextWidget(self,
                                     images_path("chart.svg"),
                                     "Statistiques",
@@ -485,7 +485,6 @@ class AdmLayout(Layout):
         self.current = self.home
 
         self.messages.set_disable(True)
-        self.manage.set_disable(True)
         self.stats.set_disable(True)
         self.alerts.set_disable(True)
 
@@ -530,7 +529,7 @@ class AdminLayout(Layout):
         self.manage = IconTextWidget(self,
                                      images_path("multiple-account.svg"),
                                      "Gestion de l'établissement",
-                                     lambda: self.parent.parent.go_to("/test"))
+                                     lambda: self.parent.parent.go_to("/manage"))
         self.manage.text.setWordWrap(True)
 
         self.profile = IconTextWidget(self,
@@ -539,8 +538,6 @@ class AdminLayout(Layout):
                                       lambda: self.parent.parent.go_to("/profile"))
 
         self.current = self.home
-
-        self.manage.set_disable(True)
 
         self.mainLayout.addWidget(self.home)
         self.mainLayout.addWidget(self.manage)

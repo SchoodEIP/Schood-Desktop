@@ -34,7 +34,7 @@ class UserStore:
             self.email = res.json()["email"]
             self.role = res.json()["role"]
             self.classes = res.json()["classes"]
-            self.picture = res.json()["picture"]
+            self.picture = res.json()["picture"] if "picture" in res.json().keys() else None
 
     def disconnect_user(self):
         self.token = None
