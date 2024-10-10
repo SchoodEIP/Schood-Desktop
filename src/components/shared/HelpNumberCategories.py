@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QWidget, QLabel, QScrollArea, QGraphicsDropShadowEffect
+from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QWidget, QLabel, QScrollArea, QGraphicsDropShadowEffect, QSizePolicy
 from PySide6.QtGui import QColor
 from src.components.Button import Button
 from src.router.Route import Route
@@ -175,7 +175,10 @@ class HelpNumberCategoriesWidget(QWidget):
 
         self.help_number_info = QWidget()
         self.help_number_info.setLayout(self.help_number_list_box)
-        self.help_number_info.setFixedSize(390, 620)
+
+        self.help_number_info.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.help_number_info.setMinimumSize(200, 400)
+        self.help_number_info.setMaximumSize(600, 800)
         self.help_number_info.setStyleSheet("""
             background-color: #ffffff;
             border: 1px solid #4F23E2;
@@ -206,7 +209,10 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_layout.addWidget(self.help_number_info_content)
 
         self.number_info.setLayout(self.help_number_layout)
-        self.number_info.setFixedSize(865, 620)
+
+        self.number_info.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.number_info.setMinimumSize(300, 400)
+        self.number_info.setMaximumSize(1200, 800)
 
         self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_content)
 
