@@ -7,14 +7,14 @@ from src.stores import stores
 
 
 class HelpNumberInfo:
-    def __init__(self, help_number_list_content: QLabel):
-        self.help_number_list_content = help_number_list_content
+    def __init__(self, help_number_info_content: QLabel):
+        self.help_number_info_content = help_number_info_content
 
     def clear_display(self):
-        self.help_number_list_content.setText("Sélectionnez une aide")
+        self.help_number_info_content.setText("Sélectionnez une aide")
 
     def setStyleSheet(self, style: str):
-        self.help_number_list_content.setStyleSheet(style)
+        self.help_number_info_content.setStyleSheet(style)
 
     def display_number_info(self, number_info):
         description = number_info.get('description', 'Description indisponible')
@@ -50,15 +50,14 @@ class HelpNumberInfo:
         </div>
         """
 
-        self.help_number_list_content.setText(help_details)
+        self.help_number_info_content.setText(help_details)
 
 
 class HelpNumberList:
-    def __init__(self, categories, help_number_list_box, help_number_list_content):
+    def __init__(self, categories, help_number_list_box, help_number_info_content):
         self.categories = categories
         self.help_number_list_box = help_number_list_box
-        self.help_number_list = HelpNumberInfo(help_number_list_content)
-        self.help_number_list_box.setSpacing(5)  # Set spacing between help_number_buttons to 5px
+        self.help_number_list = HelpNumberInfo(help_number_info_content)
 
     def handle_click(self, _id):
         if _id not in self.categories:
@@ -138,28 +137,26 @@ class HelpNumberCategoriesWidget(QWidget):
         self.categories = {}
 
         self.helpNumbersLayout = QVBoxLayout()
+        self.helpNumbersLayout.setContentsMargins(0, 0, 0, 0)
 
         self.layout = QGridLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.layout.setContentsMargins(175, 86, 200, 128)
 
-        # Adjust column stretch to prevent horizontal scroll
         for i in range(self.number_columns):
             self.layout.setColumnStretch(i, 1)
 
         self.setLayout(self.layout)
 
         self.help_number_list_box = QVBoxLayout()
-        self.help_number_list_box.setSpacing(5)  # Set spacing between help number buttons
-        self.help_number_list_box.setContentsMargins(0, 0, 0, 0)
 
         self.help_number_list = QWidget()
         self.help_number_list.setLayout(self.help_number_list_box)
 
         self.help_number_list.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.help_number_list.setMinimumSize(200, 400)
-        self.help_number_list.setMaximumSize(600, 800)  # Adjust maximum size to prevent overflow
+        self.help_number_list.setMaximumSize(600, 800)
         self.help_number_list.setStyleSheet("""
             background-color: #ffffff;
             border: 1px solid #4F23E2;
@@ -176,23 +173,24 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_layout = QVBoxLayout()
         self.help_number_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.help_number_list_content = QLabel("Sélectionnez une catégorie d'aide")
-        self.help_number_list_content.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.help_number_list_content.setStyleSheet("""
+        self.help_number_info_display = QLabel("Sélectionnez une catégorie d'aide")
+        self.help_number_info_display.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.help_number_info_display.setStyleSheet("""
             font-size: 16px;
+            font-weight: 600;
             margin: 0px;  
         """)
-        self.help_number_list_content.setWordWrap(True)  # Ensure word wrapping to avoid overflow
+        self.help_number_info_display.setWordWrap(True)
 
-        self.help_number_layout.addWidget(self.help_number_list_content)
+        self.help_number_layout.addWidget(self.help_number_info_display)
 
         self.number_info.setLayout(self.help_number_layout)
 
         self.number_info.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.number_info.setMinimumSize(300, 400)
-        self.number_info.setMaximumSize(1200, 800)  # Ensure it doesn't expand too wide
+        self.number_info.setMaximumSize(1200, 800)
 
-        self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_list_content)
+        self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_display)
 
         self.update()
 
@@ -215,6 +213,7 @@ class HelpNumberCategoriesWidget(QWidget):
 
         self.layout.addWidget(self.help_number_list, row, 0, 1, 1)
         self.layout.addWidget(self.number_info, row, 1, 1, 3)
+
 
 class HelpNumberCategories(Route):
     def __init__(self, parent):
