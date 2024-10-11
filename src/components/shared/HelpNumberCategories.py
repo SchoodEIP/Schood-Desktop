@@ -142,7 +142,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.layout = QGridLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.layout.setContentsMargins(175, 86, 200, 128)
+        self.layout.setContentsMargins(175, 128, 200, 128)
 
         for i in range(self.number_columns):
             self.layout.setColumnStretch(i, 1)
