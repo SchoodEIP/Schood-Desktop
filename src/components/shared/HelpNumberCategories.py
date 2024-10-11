@@ -142,7 +142,7 @@ class HelpNumberCategoriesWidget(QWidget):
         self.layout = QGridLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.layout.setContentsMargins(175, 128, 200, 128)
+        self.layout.setContentsMargins(175, 80, 200, 0)
 
         for i in range(self.number_columns):
             self.layout.setColumnStretch(i, 1)
@@ -155,8 +155,8 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_list.setLayout(self.help_number_list_box)
 
         self.help_number_list.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.help_number_list.setMinimumSize(200, 400)
-        self.help_number_list.setMaximumSize(600, 800)
+        self.help_number_list.setMinimumSize(200, 500)
+        self.help_number_list.setMaximumSize(600, 500)
         self.help_number_list.setStyleSheet("""
             background-color: #ffffff;
             border: 1px solid #4F23E2;
@@ -187,8 +187,8 @@ class HelpNumberCategoriesWidget(QWidget):
         self.number_info.setLayout(self.help_number_layout)
 
         self.number_info.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.number_info.setMinimumSize(300, 400)
-        self.number_info.setMaximumSize(1200, 800)
+        self.number_info.setMinimumSize(300, 500)
+        self.number_info.setMaximumSize(1200, 500)
 
         self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_display)
 
