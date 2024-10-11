@@ -384,3 +384,4 @@ snapshots-diff/
 .env
 SchoodDesktop/
 schooddesktop-darwin-x64/
+/src/test.csv

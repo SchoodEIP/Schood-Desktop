@@ -179,6 +179,7 @@ class UserListAdminWidget(QWidget):
         for widget in self.users.values():
             self.layout.removeWidget(widget)
             widget.deleteLater()
+        self.users.clear()
 
     def click(self, _id):
         stores.users.set_selected_user(_id)

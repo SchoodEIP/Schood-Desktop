@@ -2,6 +2,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QPushButton, QHBoxLayout, \
     QDialog
 
+from src.components.Button import Button
 from src.components.adm.UsersListAdm import UserListAdmWidget
 from src.router.Route import Route
 from src.stores import stores
@@ -36,8 +37,8 @@ class ButtonsRow(QWidget):
 
         self.setFixedWidth(750)
 
-        self.studentSwitch = QPushButton("Comptes étudiants")
-        self.teacherSwitch = QPushButton("Comptes professeurs")
+        self.studentSwitch = Button("Comptes étudiants")
+        self.teacherSwitch = Button("Comptes professeurs")
 
         self.studentSwitch.setStyleSheet(self.activeStyle)
         self.teacherSwitch.setStyleSheet(self.nonActiveStyle)
@@ -95,7 +96,7 @@ class ManageUsersAdm(Route):
 
         self.mainLayout.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        self.createAccount = QPushButton("Ajouter un compte")
+        self.createAccount = Button("Ajouter un compte")
         self.createAccount.clicked.connect(self.displayCreateAccount)
         self.buttonsRow = ButtonsRow(self, self.subWidget.switchLayout)
         self.createAccount.setStyleSheet(self.buttonsRow.activeStyle)

@@ -230,50 +230,35 @@ class ModifyUserInfoAdminWidget(QWidget):
         self.setStyleSheet("color: #000000;")
         self.user = None
 
-        self.layout = QGridLayout()
+        self.layout = QVBoxLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.layout.setHorizontalSpacing(200)
-        self.layout.setVerticalSpacing(40)
+        self.layout.setSpacing(40)
 
         self.facilitiesItems = {}
 
-        self.lastname = NormalInput(self, "Nom")
         self.firstname = NormalInput(self, "Prénom")
+        self.lastname = NormalInput(self, "Nom")
         self.email = NormalInput(self, "Email")
-        self.facility = None
 
-        self.layout.addWidget(self.firstname, 0, 0)
-        self.layout.addWidget(self.lastname, 0, 1)
-        self.layout.addWidget(self.email, 1, 0)
-
-        self.layout.setRowStretch(0, 1)
-        self.layout.setRowStretch(1, 1)
-        self.layout.setRowStretch(2, 1)
-
-        self.layout.setColumnStretch(0, 1)
-        self.layout.setColumnStretch(1, 1)
+        self.layout.addWidget(self.firstname)
+        self.layout.addWidget(self.lastname)
+        self.layout.addWidget(self.email)
 
         self.setLayout(self.layout)
         self.setMaximumWidth(750)
         self.setMaximumHeight(500)
 
     def update(self):
-        self.init_facilities()
         self.init_user()
-
-    def init_facilities(self):
-        stores.facilities.fetch_facilities()
-        for facility in stores.facilities.get_facilities():
-            self.facilitiesItems[facility["name"]] = facility["_id"]
-
-        self.facility = SelectInput(self, "Etablissement", self.facilitiesItems)
-        self.layout.addWidget(self.facility, 1, 1)
+        self.init_roles()
 
     def reset(self):
         self.lastname.reset()
         self.firstname.reset()
         self.email.reset()
-        self.facility.reset()
+
+    def init_roles(self):
+        stores.roles.fetch_roles()
 
     def init_user(self):
         self.user = stores.users.get_selected_user()
@@ -282,4 +267,3 @@ class ModifyUserInfoAdminWidget(QWidget):
         self.lastname.input.setText(self.user["lastname"])
         self.firstname.input.setText(self.user["firstname"])
         self.email.input.setText(self.user["email"])
-        # self.facility.on_option_selected(self.user["facility"]["name"])

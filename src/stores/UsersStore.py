@@ -1,6 +1,3 @@
-import json
-from json import JSONEncoder
-
 from src.stores import stores
 
 
@@ -22,6 +19,9 @@ class UsersStore:
         if selectedUser is None:
             self.selectedUser = None
             return
+        if type(selectedUser) is dict:
+            self.selectedUser = selectedUser
+            return
         for user in self.users:
             if user["_id"] == selectedUser:
                 self.selectedUser = user
@@ -37,7 +37,16 @@ class UsersStore:
         }
         if title == "":
             del payload["title"]
-        return stores.request.post("/adm/register/?mail=false", data=payload)
+        return stores.request.post("/adm/register/?mail=true", data=payload)
+
+    def create_users_file(self, file_path):
+        try:
+            files = { "csv": open(file_path, "rb") }
+            print("files: ", files)
+            res = stores.request.post("/adm/csvRegisterUser", files=files)
+            print("res: ", res.status_code, res.text)
+        except Exception as e:
+            print(e)
 
     def update_user(self, _id, lastname, firstname, email, role, title, classes):
         payload = {
@@ -53,5 +62,13 @@ class UsersStore:
         return stores.request.patch("/user/" + str(_id), data=payload)
 
     def delete_user(self, _id, delete_permanently):
-        print(_id)
         return stores.request.delete("/adm/deleteUser/" + str(_id), data={ "deletePermanently": delete_permanently})
+
+    def fetch_and_get_disabled_users(self):
+        return stores.request.get("/user/getDisabled").json()
+
+    def activate_user(self, _id):
+        try:
+            stores.request.post("/adm/activateUser/" + str(_id))
+        except Exception as e:
+            print(e)

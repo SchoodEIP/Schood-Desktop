@@ -13,8 +13,12 @@ class HttpRequestStore:
     def get(self, route):
         return requests.get(self.baseUrl + route, headers=self.headers)
 
-    def post(self, route, data):
-        return requests.post(self.baseUrl + route, headers=self.headers, json=data)
+    def post(self, route, data=None, files=None):
+        headers = self.headers
+        if files:
+            del(headers["Content-Type"])
+            print("Headers: ", headers)
+        return requests.post(self.baseUrl + route, headers=headers, json=data, files=files)
 
     def patch(self, route, data):
         return requests.patch(self.baseUrl + route, headers=self.headers, json=data)
