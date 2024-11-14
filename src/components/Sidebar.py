@@ -127,6 +127,14 @@ class IconTextWidget(Button):
                 background-color: transparent;
             }
         """)
+        self.image.setStyleSheet("""
+            QSvgWidget {
+                background-color: #FFD2D5;
+                border-radius: 0px;
+                padding: 0px;
+                margin: 0px;
+            }
+        """)
 
     def set_disable(self, disable):
         self.disable = disable
@@ -220,13 +228,13 @@ class IconTextWidget(Button):
                 }
             """)
             self.image.setStyleSheet("""
-                        QSvgWidget {
-                            background-color: #FFD2D5;
-                            border-radius: 0px;
-                            padding: 0px;
-                            margin: 0px;
-                        }
-                    """)
+                QSvgWidget {
+                    background-color: #FFD2D5;
+                    border-radius: 0px;
+                    padding: 0px;
+                    margin: 0px;
+                }
+            """)
         super().leaveEvent(event)
 
 
