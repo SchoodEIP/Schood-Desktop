@@ -108,6 +108,8 @@ class ProfileWidget(QWidget):
         self.firstname.data.setText(stores.user.firstName)
         self.lastname.data.setText(stores.user.lastName)
         self.classes.data.setText(' '.join([obj['name'] for obj in stores.user.classes]))
+        if self.classes.data.text() is '':
+            self.classes.data.setText('-')
         self.email.data.setText(stores.user.email)
 
 

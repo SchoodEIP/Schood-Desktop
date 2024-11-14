@@ -135,15 +135,15 @@ class Router(QtWidgets.QMainWindow):
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
         self.widgets.append(ManageUsersAdm(self))
-        self.indexes["/manage"] = 6
+        self.indexes["/manage"] = 4
         self.widgets.append(CreateAccountDialog(self))
-        self.indexes["/createAccountDialog"] = 7
+        self.indexes["/createAccountDialog"] = 5
         self.widgets.append(CreateAccount(self))
-        self.indexes["/updateProfileButton"] = 8
+        self.indexes["/updateProfileButton"] = 6
         self.widgets.append(UpdateProfile(self))
-        self.indexes["/updateProfile"] = 9
+        self.indexes["/updateProfile"] = 7
         self.widgets.append(DeleteAccountDialog(self))
-        self.indexes["/deleteAccountDialog"] = 10
+        self.indexes["/deleteAccountDialog"] = 8
 
         self.update_routes()
 
@@ -156,15 +156,15 @@ class Router(QtWidgets.QMainWindow):
         self.widgets.append(HelpNumberCategories(self))
         self.indexes["/help"] = 3
         self.widgets.append(ManageUsersAdmin(self))
-        self.indexes["/manage"] = 6
+        self.indexes["/manage"] = 4
         self.widgets.append(CreateAccountDialog(self))
-        self.indexes["/createAccountDialog"] = 7
+        self.indexes["/createAccountDialog"] = 5
         self.widgets.append(CreateAccountAdmin(self))
-        self.indexes["/updateProfileButton"] = 8
+        self.indexes["/updateProfileButton"] = 6
         self.widgets.append(UpdateProfileAdmin(self))
-        self.indexes["/updateProfile"] = 9
+        self.indexes["/updateProfile"] = 7
         self.widgets.append(DeleteAccountDialog(self))
-        self.indexes["/deleteAccountDialog"] = 10
+        self.indexes["/deleteAccountDialog"] = 8
 
         self.update_routes()
 
