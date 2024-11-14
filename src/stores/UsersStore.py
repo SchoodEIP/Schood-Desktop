@@ -42,11 +42,12 @@ class UsersStore:
     def create_users_file(self, file_path):
         try:
             files = { "csv": open(file_path, "rb") }
-            print("files: ", files)
             res = stores.request.post("/adm/csvRegisterUser", files=files)
-            print("res: ", res.status_code, res.text)
+            files["csv"].close()
+            return res
         except Exception as e:
-            print(e)
+            print("Error:", e)
+            return None
 
     def update_user(self, _id, lastname, firstname, email, role, title, classes):
         payload = {
@@ -65,7 +66,11 @@ class UsersStore:
         return stores.request.delete("/adm/deleteUser/" + str(_id), data={ "deletePermanently": delete_permanently})
 
     def fetch_and_get_disabled_users(self):
-        return stores.request.get("/user/getDisabled").json()
+        try:
+            return stores.request.get("/user/getDisabled").json()
+        except Exception as e:
+            print(e)
+            return []
 
     def activate_user(self, _id):
         try:

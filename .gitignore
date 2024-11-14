@@ -385,3 +385,4 @@ snapshots-diff/
 SchoodDesktop/
 schooddesktop-darwin-x64/
 /src/test.csv
+/src/correct.csv

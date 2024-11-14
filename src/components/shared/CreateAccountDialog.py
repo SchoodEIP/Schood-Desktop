@@ -1,3 +1,5 @@
+import json
+
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QSizePolicy, QPushButton, \
     QFileDialog
@@ -25,6 +27,21 @@ class CreateAccountDialogWidget(QWidget):
         self.multiple = Button("Ajouter des comptes")
         self.multiple.clicked.connect(callbackMultiple)
 
+        self.error = QLabel("")
+        self.error.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: 600;
+                color: #DD0000;
+            }
+        """)
+        self.scroll = QScrollArea()
+        self.scroll.setWidgetResizable(True)
+        self.error.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.error.setWordWrap(True)
+        self.error.setFixedWidth(380)
+        self.scroll.setWidget(self.error)
+
         self.single.setStyleSheet("""
             QPushButton {
                 background-color: #4F23E2;
@@ -50,11 +67,13 @@ class CreateAccountDialogWidget(QWidget):
         self.single.setMaximumWidth(400)
         self.multiple.setMaximumWidth(400)
 
-        self.layout.addWidget(self.single, 0, 0)
-        self.layout.addWidget(self.multiple, 1, 0)
+        self.layout.addWidget(self.single, 0, 0, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.multiple, 1, 0, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.scroll, 2, 0, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.layout.setRowStretch(0, 1)
         self.layout.setRowStretch(1, 1)
+        self.layout.setRowStretch(2, 1)
 
         self.layout.setColumnStretch(0, 1)
 
@@ -89,8 +108,6 @@ class CreateAccountDialog(Route):
                 text-decoration: underline;
             }
         """)
-
-
 
         self.mainLayout.addWidget(self.backButton, alignment=Qt.AlignmentFlag.AlignLeft)
         self.mainLayout.addWidget(self.scrollArea)
@@ -170,7 +187,19 @@ class CreateAccountDialog(Route):
     def select_file(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Select file", "", "CSV Files (*.csv)")
         if file_path and file_path.endswith(".csv"):
-            print(file_path)
-            stores.users.create_users_file(file_path)
+            res = stores.users.create_users_file(file_path)
+            if res is not None and res.status_code == 200:
+                self.parent.go_to("/manage")
+            else:
+                self.mainWidget.error.setText(self.createError(res.text, res.status_code))
         else:
             print("No file selected")
+
+    def createError(self, text, code):
+        if code == 500:
+            return text
+        parsedText = json.loads(text)
+        error = ""
+        for line in parsedText:
+            error += "Ligne " + str(line["rowCSV"]) + ": " + " ".join(line["errors"]) + "\n"
+        return error

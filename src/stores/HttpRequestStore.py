@@ -15,9 +15,8 @@ class HttpRequestStore:
 
     def post(self, route, data=None, files=None):
         headers = self.headers
-        if files:
+        if files and headers.get('Content-Type') is not None:
             del(headers["Content-Type"])
-            print("Headers: ", headers)
         return requests.post(self.baseUrl + route, headers=headers, json=data, files=files)
 
     def patch(self, route, data):
