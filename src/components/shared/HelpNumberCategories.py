@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QWidget, QLabel, QScrollArea, QGraphicsDropShadowEffect
+from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QWidget, QLabel, QGraphicsDropShadowEffect, QSizePolicy, \
+    QScrollArea
 from PySide6.QtGui import QColor
 from src.components.Button import Button
 from src.router.Route import Route
@@ -52,11 +53,12 @@ class HelpNumberInfo:
 
         self.help_number_info_content.setText(help_details)
 
+
 class HelpNumberList:
     def __init__(self, categories, help_number_list_box, help_number_info_content):
         self.categories = categories
         self.help_number_list_box = help_number_list_box
-        self.help_number_info = HelpNumberInfo(help_number_info_content)
+        self.help_number_list = HelpNumberInfo(help_number_info_content)
 
     def handle_click(self, _id):
         if _id not in self.categories:
@@ -75,8 +77,8 @@ class HelpNumberList:
 
         if help_numbers:
             for number_info in help_numbers:
-                help_button = Button(parent=None, text=number_info['name'])
-                help_button.setStyleSheet("""
+                help_number_button = Button(parent=None, text=number_info['name'])
+                help_number_button.setStyleSheet("""
                     QPushButton {
                         background-color: #FFFFFF;
                         color: #4F23E2;
@@ -90,15 +92,15 @@ class HelpNumberList:
                         color: #FFFFFF;
                     }
                 """)
-                help_button.clicked.connect(lambda _, hn=number_info: self.help_number_info.display_number_info(hn))
-                self.help_number_list_box.addWidget(help_button)
+                help_number_button.clicked.connect(lambda _, hn=number_info: self.help_number_list.display_number_info(hn))
+                self.help_number_list_box.addWidget(help_number_button)
         else:
             no_help_label = QLabel("Liste de numéro indisponible")
             no_help_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             no_help_label.setStyleSheet("font-size: 16px; font-weight: bold;")
             self.help_number_list_box.addWidget(no_help_label)
 
-        self.help_number_info.clear_display()
+        self.help_number_list.clear_display()
 
 
 class CategoryButton(Button):
@@ -136,11 +138,12 @@ class HelpNumberCategoriesWidget(QWidget):
         self.categories = {}
 
         self.helpNumbersLayout = QVBoxLayout()
+        self.helpNumbersLayout.setContentsMargins(0, 0, 0, 0)
 
         self.layout = QGridLayout()
         self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.layout.setContentsMargins(200, 86, 200, 128)
+        self.layout.setContentsMargins(175, 80, 200, 0)
 
         for i in range(self.number_columns):
             self.layout.setColumnStretch(i, 1)
@@ -148,41 +151,18 @@ class HelpNumberCategoriesWidget(QWidget):
         self.setLayout(self.layout)
 
         self.help_number_list_box = QVBoxLayout()
-        self.help_number_list_box.setSpacing(0)
-        self.help_number_list_box.setContentsMargins(0, 0, 0, 0)
 
-        self.help_numbers_scroll = QScrollArea()
-        self.help_numbers_scroll.setWidgetResizable(True)
-        self.help_numbers_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.help_numbers_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.help_numbers_scroll.setStyleSheet("""
-            QScrollBar:vertical {
-                border: none;
-                background-color: #ffffff;
-                width: 7px;
-                margin: 0px;
-                border-radius: 7px;
-            }
-            QScrollBar::handle:vertical {
-                background-color: #9699FF;
-                border-radius: 3px;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                background-color: #f0f0f0;
-                height: 0px;
-            }
-        """)
+        self.help_number_list = QWidget()
+        self.help_number_list.setLayout(self.help_number_list_box)
 
-        self.help_number_info = QWidget()
-        self.help_number_info.setLayout(self.help_number_list_box)
-        self.help_number_info.setFixedSize(390, 620)
-        self.help_number_info.setStyleSheet("""
+        self.help_number_list.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.help_number_list.setMinimumSize(200, 500)
+        self.help_number_list.setMaximumSize(600, 500)
+        self.help_number_list.setStyleSheet("""
             background-color: #ffffff;
             border: 1px solid #4F23E2;
             border-radius: 7px;       
         """)
-
-        self.help_numbers_scroll.setWidget(self.help_number_info)
 
         self.number_info = QWidget()
         self.number_info.setStyleSheet("""
@@ -194,21 +174,24 @@ class HelpNumberCategoriesWidget(QWidget):
         self.help_number_layout = QVBoxLayout()
         self.help_number_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.help_number_info_content = QLabel("Sélectionnez une catégorie d'aide")
-        self.help_number_info_content.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.help_number_info_content.setStyleSheet("""
+        self.help_number_info_display = QLabel("Sélectionnez une catégorie d'aide")
+        self.help_number_info_display.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.help_number_info_display.setStyleSheet("""
             font-size: 16px;
+            font-weight: 600;
             margin: 0px;  
-            padding: 10px;
         """)
-        self.help_number_info_content.setWordWrap(True)
+        self.help_number_info_display.setWordWrap(True)
 
-        self.help_number_layout.addWidget(self.help_number_info_content)
+        self.help_number_layout.addWidget(self.help_number_info_display)
 
         self.number_info.setLayout(self.help_number_layout)
-        self.number_info.setFixedSize(865, 620)
 
-        self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_content)
+        self.number_info.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.number_info.setMinimumSize(300, 500)
+        self.number_info.setMaximumSize(1200, 500)
+
+        self.click_handler = HelpNumberList(self.categories, self.help_number_list_box, self.help_number_info_display)
 
         self.update()
 
@@ -229,8 +212,9 @@ class HelpNumberCategoriesWidget(QWidget):
 
         row = (len(categories) // self.number_columns) + 1
 
-        self.layout.addWidget(self.help_numbers_scroll, row, 0, 1, 1)
+        self.layout.addWidget(self.help_number_list, row, 0, 1, 1)
         self.layout.addWidget(self.number_info, row, 1, 1, 3)
+
 
 class HelpNumberCategories(Route):
     def __init__(self, parent):
@@ -243,6 +227,11 @@ class HelpNumberCategories(Route):
 
         self.mainWidget = HelpNumberCategoriesWidget(self)
 
+
+        self.scrollArea = QScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setWidget(self.mainWidget)
+
         self.title = QLabel("Mes catégories de numéro d'aide")
         self.title.setStyleSheet("""
             QLabel {
@@ -253,6 +242,73 @@ class HelpNumberCategories(Route):
         """)
 
         self.mainLayout.addWidget(self.title)
-        self.mainLayout.addWidget(self.mainWidget)
+        self.mainLayout.addWidget(self.scrollArea)
+
+        self.scrollArea.setStyleSheet("""
+                    QScrollBar:vertical {
+                        border: none;
+                        background: #f0f0f0;
+                        width: 14px;
+                        margin: 0px 0px 0px 0px;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::handle:vertical {
+                        background: #FFD2D5;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::add-line:vertical {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: bottom;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::sub-line:vertical {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: top;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+                        border: none;
+                        background: none;
+                    }
+                    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                        background: none;
+                    }
+                    QScrollBar:horizontal {
+                        border: none;
+                        background: #f0f0f0;
+                        width: 14px;
+                        margin: 0px 0px 0px 0px;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::handle:horizontal {
+                        background: #FFD2D5;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::add-line:horizontal {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: bottom;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::sub-line:horizontal {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: top;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal {
+                        border: none;
+                        background: none;
+                    }
+                    QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                        background: none;
+                    }
+                """)
 
         self.setLayout(self.mainLayout)

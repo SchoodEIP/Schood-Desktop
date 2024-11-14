@@ -97,6 +97,16 @@ class IconTextWidget(Button):
             }
         """)
 
+        self.image.setStyleSheet("""
+            QSvgWidget {
+                background-color: transparent;
+                border-radius: 0px;
+                padding: 0px;
+                margin: 0px;
+            }
+        """)
+
+
     def set_as_not_current(self):
         if self.static or self.disable:
             return
@@ -125,6 +135,14 @@ class IconTextWidget(Button):
                 font-size: 18px;
                 padding: 0px;
                 background-color: transparent;
+            }
+        """)
+        self.image.setStyleSheet("""
+            QSvgWidget {
+                background-color: #FFD2D5;
+                border-radius: 0px;
+                padding: 0px;
+                margin: 0px;
             }
         """)
 
@@ -220,13 +238,13 @@ class IconTextWidget(Button):
                 }
             """)
             self.image.setStyleSheet("""
-                        QSvgWidget {
-                            background-color: #FFD2D5;
-                            border-radius: 0px;
-                            padding: 0px;
-                            margin: 0px;
-                        }
-                    """)
+                QSvgWidget {
+                    background-color: #FFD2D5;
+                    border-radius: 0px;
+                    padding: 0px;
+                    margin: 0px;
+                }
+            """)
         super().leaveEvent(event)
 
 
@@ -552,7 +570,7 @@ class AdminLayout(Layout):
 
         self.buttons["/"] = self.home
         self.buttons["/manage"] = self.manage
-        self.buttons["/test"] = self.profile
+        self.buttons["/profile"] = self.profile
 
     def on_child_click(self):
         for button in self.buttons.values():
