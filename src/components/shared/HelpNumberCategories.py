@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QWidget, QLabel, QGraphicsDropShadowEffect, QSizePolicy
+from PySide6.QtWidgets import QGridLayout, QVBoxLayout, QWidget, QLabel, QGraphicsDropShadowEffect, QSizePolicy, \
+    QScrollArea
 from PySide6.QtGui import QColor
 from src.components.Button import Button
 from src.router.Route import Route
@@ -226,6 +227,11 @@ class HelpNumberCategories(Route):
 
         self.mainWidget = HelpNumberCategoriesWidget(self)
 
+
+        self.scrollArea = QScrollArea()
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setWidget(self.mainWidget)
+
         self.title = QLabel("Mes catégories de numéro d'aide")
         self.title.setStyleSheet("""
             QLabel {
@@ -236,6 +242,73 @@ class HelpNumberCategories(Route):
         """)
 
         self.mainLayout.addWidget(self.title)
-        self.mainLayout.addWidget(self.mainWidget)
+        self.mainLayout.addWidget(self.scrollArea)
+
+        self.scrollArea.setStyleSheet("""
+                    QScrollBar:vertical {
+                        border: none;
+                        background: #f0f0f0;
+                        width: 14px;
+                        margin: 0px 0px 0px 0px;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::handle:vertical {
+                        background: #FFD2D5;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::add-line:vertical {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: bottom;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::sub-line:vertical {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: top;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+                        border: none;
+                        background: none;
+                    }
+                    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                        background: none;
+                    }
+                    QScrollBar:horizontal {
+                        border: none;
+                        background: #f0f0f0;
+                        width: 14px;
+                        margin: 0px 0px 0px 0px;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::handle:horizontal {
+                        background: #FFD2D5;
+                        border-radius: 7px;
+                    }
+                    QScrollBar::add-line:horizontal {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: bottom;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::sub-line:horizontal {
+                        border: none;
+                        background: #f0f0f0;
+                        height: 0px;
+                        subcontrol-position: top;
+                        subcontrol-origin: margin;
+                    }
+                    QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal {
+                        border: none;
+                        background: none;
+                    }
+                    QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                        background: none;
+                    }
+                """)
 
         self.setLayout(self.mainLayout)
