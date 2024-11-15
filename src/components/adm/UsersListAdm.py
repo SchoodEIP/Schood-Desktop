@@ -170,7 +170,7 @@ class UserListAdmWidget(QWidget):
         self.setLayout(self.layout)
 
     def update(self):
-        self.clearUsers()
+        self.clear_users()
         stores.users.fetch_users()
         users = stores.users.get_users()
 
@@ -188,16 +188,16 @@ class UserListAdmWidget(QWidget):
                 self.teachers[user["_id"]] = widget
             else:
                 self.students[user["_id"]] = widget
-        self.fillLayout()
+        self.fill_layout()
 
-    def clearLayout(self):
+    def clear_layout(self):
         while self.layout.count():
             w = self.layout.takeAt(0)
             if w.widget():
                 w.widget().hide()
                 self.layout.removeWidget(w.widget())
 
-    def fillLayout(self):
+    def fill_layout(self):
         self.layout.addWidget(self.header)
         self.header.show()
         if self.mode == self.STUDENT:
@@ -209,15 +209,15 @@ class UserListAdmWidget(QWidget):
                 self.layout.addWidget(widget)
                 widget.show()
 
-    def switchLayout(self, mode=-1):
+    def switch_layout(self, mode=-1):
         if mode == -1:
             self.mode = self.STUDENT if self.mode == self.TEACHER else self.TEACHER
         else:
             self.mode = mode
-        self.clearLayout()
-        self.fillLayout()
+        self.clear_layout()
+        self.fill_layout()
 
-    def clearUsers(self):
+    def clear_users(self):
         for widget in self.students.values():
             self.layout.removeWidget(widget)
             widget.deleteLater()

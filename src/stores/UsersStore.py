@@ -42,7 +42,7 @@ class UsersStore:
     def create_users_file(self, file_path):
         try:
             files = { "csv": open(file_path, "rb") }
-            res = stores.request.post("/adm/csvRegisterUser", files=files)
+            res = stores.request.post("/adm/csvRegisterUser/?mail=true", files=files)
             files["csv"].close()
             return res
         except Exception as e:

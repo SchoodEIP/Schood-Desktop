@@ -1,15 +1,12 @@
 import base64
-from enum import Enum
 
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtGui import QPainter, QFontMetrics, QPixmap
 from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QVBoxLayout, QHBoxLayout, \
+    QApplication
 
-from src.components.Button import Button
-from src.router.Route import Route
 from src.stores import stores
-from src.stores.stores import users
 from src.utils.ressources import images_path
 
 
@@ -81,10 +78,22 @@ class UserButton(QWidget):
         self.mainWidget.setLayout(self.subLayout)
         self.layout.addWidget(self.mainWidget)
         self.setLayout(self.layout)
-        self.clicked.connect(lambda: callback(self.user["_id"]))
+        if self.user["active"]:
+            self.clicked.connect(lambda: callback(self.user["_id"]))
+        else:
+            self.clicked.connect(lambda: callback(self.user))
+
 
     def mousePressEvent(self, event):
         self.clicked.emit()
+
+    def enterEvent(self, event):
+        QApplication.setOverrideCursor(Qt.CursorShape.PointingHandCursor)
+        super().enterEvent(event)
+
+    def leaveEvent(self, event):
+        QApplication.restoreOverrideCursor()
+        super().leaveEvent(event)
 
 
 class UserListHeader(QWidget):
@@ -151,7 +160,7 @@ class UserListAdminWidget(QWidget):
         self.setLayout(self.layout)
 
     def update(self):
-        self.clearUsers()
+        self.clear_users()
         stores.users.fetch_users()
         users = stores.users.get_users()
 
@@ -159,23 +168,29 @@ class UserListAdminWidget(QWidget):
             widget: UserButton = UserButton(self, user, self.click)
             if user["role"]["levelOfAccess"] == 2:
                 self.users[user["_id"]] = widget
-        self.fillLayout()
 
-    def clearLayout(self):
+        users = stores.users.fetch_and_get_disabled_users()
+        for user in users:
+            widget: UserButton = UserButton(self, user, self.activate)
+            if user["role"]["levelOfAccess"] == 2:
+                self.users[user["_id"]] = widget
+        self.fill_layout()
+
+    def clear_layout(self):
         while self.layout.count():
             w = self.layout.takeAt(0)
             if w.widget():
                 w.widget().hide()
                 self.layout.removeWidget(w.widget())
 
-    def fillLayout(self):
+    def fill_layout(self):
         self.layout.addWidget(self.header)
         self.header.show()
         for widget in self.users.values():
             self.layout.addWidget(widget)
             widget.show()
 
-    def clearUsers(self):
+    def clear_users(self):
         for widget in self.users.values():
             self.layout.removeWidget(widget)
             widget.deleteLater()
@@ -184,3 +199,7 @@ class UserListAdminWidget(QWidget):
     def click(self, _id):
         stores.users.set_selected_user(_id)
         self.parent.parent.go_to("/updateProfile")
+
+    def activate(self, _id):
+        stores.users.set_selected_user(_id)
+        self.parent.parent.go_to("/activateUserDialog")

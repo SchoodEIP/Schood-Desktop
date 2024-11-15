@@ -1,11 +1,9 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QPushButton, QHBoxLayout, \
-    QDialog
+from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout
 
 from src.components.Button import Button
 from src.components.adm.UsersListAdm import UserListAdmWidget
 from src.router.Route import Route
-from src.stores import stores
 
 
 class ButtonsRow(QWidget):
@@ -97,8 +95,8 @@ class ManageUsersAdm(Route):
         self.mainLayout.addWidget(self.title, alignment=Qt.AlignmentFlag.AlignLeft)
 
         self.createAccount = Button("Ajouter un compte")
-        self.createAccount.clicked.connect(self.displayCreateAccount)
-        self.buttonsRow = ButtonsRow(self, self.subWidget.switchLayout)
+        self.createAccount.clicked.connect(self.display_create_account)
+        self.buttonsRow = ButtonsRow(self, self.subWidget.switch_layout)
         self.createAccount.setStyleSheet(self.buttonsRow.activeStyle)
         self.createAccount.setFixedWidth(350)
 
@@ -181,5 +179,5 @@ class ManageUsersAdm(Route):
     def update(self):
         self.subWidget.update()
 
-    def displayCreateAccount(self):
+    def display_create_account(self):
         self.parent.go_to("/createAccountDialog")
