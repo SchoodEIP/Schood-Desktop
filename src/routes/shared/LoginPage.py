@@ -115,13 +115,16 @@ class LoginPage(Route):
                 return
             data = {
                 "email": email,
-                "password": password
+                "password": password,
+                "rememberMe": False
             }
             # data = {
             #     "email": "admin.Schood1@schood.fr",
-            #     "password": "admin_123"
+            #     "password": "admin_123",
+            #     "rememberMe": False
             # }
             res = stores.request.post("/user/login", data=data)
+            print(res.json())
             if res.status_code == 200:
                 stores.user.connect_user(res.json())
                 self.parent.init_roles_routes()
