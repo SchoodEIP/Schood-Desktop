@@ -1,15 +1,12 @@
 import base64
-from enum import Enum
 
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtGui import QPainter, QFontMetrics, QPixmap
 from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtWidgets import QScrollArea, QWidget, QGridLayout, QLabel, QVBoxLayout, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QVBoxLayout, QHBoxLayout, \
+    QApplication
 
-from src.components.Button import Button
-from src.router.Route import Route
 from src.stores import stores
-from src.stores.stores import users
 from src.utils.ressources import images_path
 
 
@@ -51,12 +48,13 @@ class UserButton(QWidget):
         """)
         self.subLayout = QGridLayout()
 
-        self.firstname = ButtonLabel(self.user["firstname"])
+        self.firstname = ButtonLabel(self.user["firstname"] if self.user["active"] == True else "DD " +  self.user["firstname"])
         self.lastname = ButtonLabel(self.user["lastname"])
         self.email = ButtonLabel(self.user["email"])
         self.classes = ButtonLabel(", ".join(_class["name"] for _class in self.user["classes"]))
         self.picture = QLabel()
         self.imageProfile = QPixmap()
+        self.activate = None
 
         if "picture" not in self.user.keys() or len(self.user["picture"].split(",")) != 2:
             self.picture = QSvgWidget(images_path("circle_account.svg"))
@@ -74,6 +72,11 @@ class UserButton(QWidget):
         self.subLayout.addWidget(self.lastname, 0, 2, alignment=Qt.AlignmentFlag.AlignCenter)
         self.subLayout.addWidget(self.email, 0, 3, alignment=Qt.AlignmentFlag.AlignCenter)
         self.subLayout.addWidget(self.classes, 0, 4, alignment=Qt.AlignmentFlag.AlignCenter)
+        if not self.user["active"]:
+            self.activate = QSvgWidget(images_path("add.svg"))
+            self.activate.setFixedSize(QSize(30, 30))
+            self.activate.setStyleSheet("border: none;")
+            self.subLayout.addWidget(self.activate, 0, 5, alignment=Qt.AlignmentFlag.AlignCenter)
 
         for i in range(1, 5):
             self.subLayout.setColumnStretch(i, 1)
@@ -81,10 +84,21 @@ class UserButton(QWidget):
         self.mainWidget.setLayout(self.subLayout)
         self.layout.addWidget(self.mainWidget)
         self.setLayout(self.layout)
-        self.clicked.connect(lambda: callback(self.user["_id"]))
+        if self.user["active"]:
+            self.clicked.connect(lambda: callback(self.user["_id"]))
+        else:
+            self.clicked.connect(lambda: callback(self.user))
 
     def mousePressEvent(self, event):
         self.clicked.emit()
+
+    def enterEvent(self, event):
+        QApplication.setOverrideCursor(Qt.CursorShape.PointingHandCursor)
+        super().enterEvent(event)
+
+    def leaveEvent(self, event):
+        QApplication.restoreOverrideCursor()
+        super().leaveEvent(event)
 
 
 class UserListHeader(QWidget):
@@ -156,7 +170,7 @@ class UserListAdmWidget(QWidget):
         self.setLayout(self.layout)
 
     def update(self):
-        self.clearUsers()
+        self.clear_users()
         stores.users.fetch_users()
         users = stores.users.get_users()
 
@@ -166,16 +180,24 @@ class UserListAdmWidget(QWidget):
                 self.teachers[user["_id"]] = widget
             else:
                 self.students[user["_id"]] = widget
-        self.fillLayout()
 
-    def clearLayout(self):
+        users = stores.users.fetch_and_get_disabled_users()
+        for user in users:
+            widget: UserButton = UserButton(self, user, self.activate)
+            if user["role"]["levelOfAccess"] == 1:
+                self.teachers[user["_id"]] = widget
+            else:
+                self.students[user["_id"]] = widget
+        self.fill_layout()
+
+    def clear_layout(self):
         while self.layout.count():
             w = self.layout.takeAt(0)
             if w.widget():
                 w.widget().hide()
                 self.layout.removeWidget(w.widget())
 
-    def fillLayout(self):
+    def fill_layout(self):
         self.layout.addWidget(self.header)
         self.header.show()
         if self.mode == self.STUDENT:
@@ -187,22 +209,28 @@ class UserListAdmWidget(QWidget):
                 self.layout.addWidget(widget)
                 widget.show()
 
-    def switchLayout(self, mode=-1):
+    def switch_layout(self, mode=-1):
         if mode == -1:
             self.mode = self.STUDENT if self.mode == self.TEACHER else self.TEACHER
         else:
             self.mode = mode
-        self.clearLayout()
-        self.fillLayout()
+        self.clear_layout()
+        self.fill_layout()
 
-    def clearUsers(self):
+    def clear_users(self):
         for widget in self.students.values():
             self.layout.removeWidget(widget)
             widget.deleteLater()
         for widget in self.teachers.values():
             self.layout.removeWidget(widget)
             widget.deleteLater()
+        self.students.clear()
+        self.teachers.clear()
 
     def click(self, _id):
         stores.users.set_selected_user(_id)
         self.parent.parent.go_to("/updateProfile")
+
+    def activate(self, _id):
+        stores.users.set_selected_user(_id)
+        self.parent.parent.go_to("/activateUserDialog")

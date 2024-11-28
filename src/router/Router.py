@@ -7,6 +7,7 @@ from src.components.admin.ManageUsersAdmin import ManageUsersAdmin
 from src.components.admin.Sidebar import AdminSidebar
 from src.components.shared.HelpNumberCategories import HelpNumberCategories
 from src.components.admin.UpdateProfileAdmin import UpdateProfileAdmin
+from src.components.shared.ActivateUser import ActivateUser
 from src.components.shared.CreateAccount import CreateAccount
 from src.components.shared.CreateAccountDialog import CreateAccountDialog
 from src.components.shared.DeleteAccountDialog import DeleteAccountDialog
@@ -147,6 +148,8 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/updateProfile"] = 8
         self.widgets.append(DeleteAccountDialog(self))
         self.indexes["/deleteAccountDialog"] = 9
+        self.widgets.append(ActivateUser(self))
+        self.indexes["/activateUserDialog"] = 10
 
         self.update_routes()
 
@@ -168,6 +171,8 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/updateProfile"] = 8
         self.widgets.append(DeleteAccountDialog(self))
         self.indexes["/deleteAccountDialog"] = 9
+        self.widgets.append(ActivateUser(self))
+        self.indexes["/activateUserDialog"] = 10
 
         self.update_routes()
 
