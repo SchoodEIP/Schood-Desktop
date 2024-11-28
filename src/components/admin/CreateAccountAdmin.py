@@ -159,7 +159,6 @@ class CreateAccountAdmin(Route):
         lastname = self.subWidget.lastname.input.text()
         firstname = self.subWidget.firstname.input.text()
         email = self.subWidget.email.input.text()
-        facility = self.subWidget.facility.selectedOption
         error = False
 
         if lastname == "":
@@ -177,16 +176,17 @@ class CreateAccountAdmin(Route):
             self.subWidget.email.show_error()
         else:
             self.subWidget.email.hide_error()
-        if facility == "":
-            error = True
-            self.subWidget.facility.show_error()
-        else:
-            self.subWidget.facility.hide_error()
 
         if error:
             return
 
-        res = stores.users.create_user(lastname, firstname, email, None, None, None)
+        roles = stores.roles.get_roles()
+        role = None
+
+        for _role in roles:
+            if _role["levelOfAccess"] == 2:
+                role = _role["_id"]
+        res = stores.users.create_user(lastname, firstname, email, role, "", [])
         if res.status_code == 200:
             self.back_button_callback()
         else:
