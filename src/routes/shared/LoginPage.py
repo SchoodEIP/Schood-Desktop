@@ -124,7 +124,6 @@ class LoginPage(Route):
             #     "rememberMe": False
             # }
             res = stores.request.post("/user/login", data=data)
-            print(res.json())
             if res.status_code == 200:
                 stores.user.connect_user(res.json())
                 self.parent.init_roles_routes()
