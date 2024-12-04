@@ -189,6 +189,7 @@ class CreateAccountDialog(Route):
         if file_path and file_path.endswith(".csv"):
             res = stores.users.create_users_file(file_path)
             if res is not None and res.status_code == 200:
+                self.mainWidget.error.setText("")
                 self.parent.go_to("/manage")
             else:
                 self.mainWidget.error.setText(self.createError(res.text, res.status_code))
