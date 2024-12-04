@@ -270,7 +270,7 @@ class ModifyUserInfoWidget(QWidget):
     def init_roles(self):
         stores.roles.fetch_roles()
         for role in stores.roles.get_roles():
-            if role["levelOfAccess"] == 3:
+            if role["levelOfAccess"] in [2, 3]:
                 continue
             self.rolesItems[role["frenchName"]] = role["_id"]
 
