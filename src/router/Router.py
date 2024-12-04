@@ -17,6 +17,7 @@ from src.components.student.Sidebar import StudentSidebar
 from src.components.teacher.Sidebar import TeacherSidebar
 from src.routes.shared.LoginPage import LoginPage
 from src.routes.shared.ProfilePage import ProfilePage
+from src.routes.shared.ResetPasswordPage import ResetPasswordPage
 from src.routes.student.Dashboard import StudentDashboard
 from src.routes.teacher.Dashboard import TeacherDashboard
 from src.routes.adm.Dashboard import AdmDashboard
@@ -64,6 +65,8 @@ class Router(QtWidgets.QMainWindow):
         self.indexes["/login"] = 0
         self.widgets.append(ProfilePage(self))
         self.indexes["/profile"] = 1
+        self.widgets.append(ResetPasswordPage(self))
+        self.indexes["/resetPassword"] = 2
 
         self.update_routes()
 
@@ -77,7 +80,7 @@ class Router(QtWidgets.QMainWindow):
             self.sidebar.layout.buttons[route].set_as_current()
         self.widgets[self.indexes[route]].update()
         self.routes.setCurrentIndex(self.indexes[route])
-        if route != "/login":
+        if route not in ["/login", "/resetPassword"]:
             self.sidebar.show()
         else:
             self.sidebar.hide()
@@ -108,9 +111,9 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = StudentSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(StudentDashboard(self))
-        self.indexes["/"] = 2
+        self.indexes["/"] = 3
         self.widgets.append(HelpNumberCategories(self))
-        self.indexes["/help"] = 3
+        self.indexes["/help"] = 4
 
 
         self.update_routes()
@@ -120,9 +123,9 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = TeacherSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(TeacherDashboard(self))
-        self.indexes["/"] = 2
+        self.indexes["/"] = 3
         self.widgets.append(HelpNumberCategories(self))
-        self.indexes["/help"] = 3
+        self.indexes["/help"] = 4
 
 
         self.update_routes()
@@ -132,21 +135,21 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = AdmSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(AdmDashboard(self))
-        self.indexes["/"] = 2
+        self.indexes["/"] = 3
         self.widgets.append(HelpNumberCategories(self))
-        self.indexes["/help"] = 3
+        self.indexes["/help"] = 4
         self.widgets.append(ManageUsersAdm(self))
-        self.indexes["/manage"] = 4
+        self.indexes["/manage"] = 5
         self.widgets.append(CreateAccountDialog(self))
-        self.indexes["/createAccountDialog"] = 5
+        self.indexes["/createAccountDialog"] = 6
         self.widgets.append(CreateAccount(self))
-        self.indexes["/updateProfileButton"] = 6
+        self.indexes["/updateProfileButton"] = 7
         self.widgets.append(UpdateProfile(self))
-        self.indexes["/updateProfile"] = 7
+        self.indexes["/updateProfile"] = 8
         self.widgets.append(DeleteAccountDialog(self))
-        self.indexes["/deleteAccountDialog"] = 8
+        self.indexes["/deleteAccountDialog"] = 9
         self.widgets.append(ActivateUser(self))
-        self.indexes["/activateUserDialog"] = 9
+        self.indexes["/activateUserDialog"] = 10
 
         self.update_routes()
 
@@ -155,31 +158,32 @@ class Router(QtWidgets.QMainWindow):
         self.sidebar = AdminSidebar(self)
         self.mainLayout.insertWidget(0, self.sidebar)
         self.widgets.append(AdminDashboard(self))
-        self.indexes["/"] = 2
+        self.indexes["/"] = 3
         self.widgets.append(HelpNumberCategories(self))
-        self.indexes["/help"] = 3
+        self.indexes["/help"] = 4
         self.widgets.append(ManageUsersAdmin(self))
-        self.indexes["/manage"] = 4
+        self.indexes["/manage"] = 5
         self.widgets.append(CreateAccountDialog(self))
-        self.indexes["/createAccountDialog"] = 5
+        self.indexes["/createAccountDialog"] = 6
         self.widgets.append(CreateAccountAdmin(self))
-        self.indexes["/updateProfileButton"] = 6
+        self.indexes["/updateProfileButton"] = 7
         self.widgets.append(UpdateProfileAdmin(self))
-        self.indexes["/updateProfile"] = 7
+        self.indexes["/updateProfile"] = 8
         self.widgets.append(DeleteAccountDialog(self))
-        self.indexes["/deleteAccountDialog"] = 8
+        self.indexes["/deleteAccountDialog"] = 9
         self.widgets.append(ActivateUser(self))
-        self.indexes["/activateUserDialog"] = 9
+        self.indexes["/activateUserDialog"] = 10
 
         self.update_routes()
 
     def reset_routes(self):
-        for widget in self.widgets[2:]:
+        for widget in self.widgets[3:]:
             self.routes.removeWidget(widget)
-        self.widgets = [self.widgets[0], self.widgets[1]]
+        self.widgets = [self.widgets[0], self.widgets[1], self.widgets[2]]
         self.indexes.clear()
         self.indexes["/login"] = 0
         self.indexes["/profile"] = 1
+        self.indexes["/resetPassword"] = 2
 
     def disconnect_user(self):
         stores.user.disconnect_user()

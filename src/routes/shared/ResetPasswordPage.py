@@ -50,26 +50,16 @@ class Image(QtWidgets.QLabel):
         self.setFixedWidth(356)
 
 
-class LoginPage(Route):
+class ResetPasswordPage(Route):
     def __init__(self, parent):
         super().__init__()
 
         self.parent = parent
 
         self.logo = Image()
-        self.email = LabeledInput("Email")
-        self.password = LabeledInput("Mot de passe", True)
-        self.forgotPassword = Button(text="Mot de passe oublié ? Cliquez ici", style_sheet="""
-                    QPushButton {
-                        background-color: #FFFFFF;
-                        border: none;
-                        color: #4F23E2;
-                        font-size: 12px;
-                        font-weight: 600;
-                    }
-                """)
+        self.email = LabeledInput("Adresse email")
 
-        self.loginButton = Button(text="Connexion", width=200, height=55, style_sheet="""
+        self.resetButton = Button(text="Demander un nouveau mot de passe", width=415, height=55, style_sheet="""
                     QPushButton {
                         background-color: #4F23E2;
                         border-radius: 10px;
@@ -80,6 +70,17 @@ class LoginPage(Route):
                         background-color: #4F23C2;
                     }
                 """)
+
+        self.homeButton = Button(text="Retour à l'accueil", style_sheet="""
+                            QPushButton {
+                                background-color: #FFFFFF;
+                                border: none;
+                                color: #4F23E2;
+                                font-size: 12px;
+                                font-weight: 600;
+                            }
+                        """)
+
         self.errorText = QtWidgets.QLabel("")
         self.errorText.setStyleSheet("color: #FF0000;"
                                      "font-size: 22px;")
@@ -90,53 +91,40 @@ class LoginPage(Route):
         self.layout.addStretch()
         self.layout.addWidget(self.logo, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.email, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.password.inputLayout.addWidget(self.forgotPassword, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.layout.addWidget(self.password, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.layout.addStretch()
-        self.layout.addWidget(self.loginButton, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.resetButton, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.homeButton, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.errorText, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
         self.layout.addStretch()
-        self.loginButton.clicked.connect(self.login)
-        self.forgotPassword.clicked.connect(self.forgot_password)
+        self.resetButton.clicked.connect(self.reset)
+        self.homeButton.clicked.connect(self.home)
         self.setLayout(self.layout)
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
-            self.login()
+            self.reset()
 
     @QtCore.Slot()
-    def login(self):
+    def reset(self):
         try:
             email = self.email.input.text()
-            password = self.password.input.text()
 
-            if len(email) == 0 or len(password) == 0:
-                self.errorText.setText("L'email ou le mot de passe est vide.")
+            if len(email) == 0:
+                self.errorText.setText("L'email est vide.")
                 return
             data = {
-                "email": email,
-                "password": password,
-                "rememberMe": False
+                "email": email
             }
-            # data = {
-            #     "email": "jacqueline.delais.Schood1@schood.fr",
-            #     "password": "Jacqueline_123",
-            #     "rememberMe": False
-            # }
-            res = stores.request.post("/user/login", data=data)
+            res = stores.request.post("/user/forgottenPassword?mail=true", data=data)
+            print(res)
             if res.status_code == 200:
-                stores.user.connect_user(res.json())
-                self.parent.init_roles_routes()
-                self.parent.go_to("/")
-                self.email.input.setText("")
-                self.password.input.setText("")
-                self.errorText.setText("")
+                self.parent.go_to("/login")
             elif res.status_code == 400 or res.status_code == 401:
-                self.errorText.setText("Email ou mot de passe incorrect.")
+                self.errorText.setText("Email  incorrect.")
             else:
                 self.errorText.setText("Erreur server, veuillez réessayer plus tard.")
         except Exception as e:
             print(e)
 
-    def forgot_password(self):
-        self.parent.go_to("/resetPassword")
+    @QtCore.Slot()
+    def home(self):
+        self.parent.go_to("/login")
