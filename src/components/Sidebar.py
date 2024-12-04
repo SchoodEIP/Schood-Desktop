@@ -513,9 +513,9 @@ class AdmLayout(Layout):
         self.mainLayout.addWidget(self.help)
         self.mainLayout.addWidget(self.profile)
         self.mainLayout.addWidget(self.alerts)
+        self.mainLayout.addStretch(1)
         self.mainLayout.addWidget(self.reduce)
         self.mainLayout.addWidget(self.disconnect)
-        self.mainLayout.addStretch(1)
 
         self.mainWidget.setLayout(self.mainLayout)
 

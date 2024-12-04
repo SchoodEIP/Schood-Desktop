@@ -14,8 +14,8 @@ if not load_dotenv():
 
 from src.router.Router import Router
 
-print('Current PySide version:', PySide6.__version__)
-print('Current Qt version:', QtCore.__version__)
+# print('Current PySide version:', PySide6.__version__)
+# print('Current Qt version:', QtCore.__version__)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
