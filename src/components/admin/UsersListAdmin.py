@@ -71,6 +71,11 @@ class UserButton(QWidget):
         self.subLayout.addWidget(self.lastname, 0, 2, alignment=Qt.AlignmentFlag.AlignCenter)
         self.subLayout.addWidget(self.email, 0, 3, alignment=Qt.AlignmentFlag.AlignCenter)
         self.subLayout.addWidget(self.facility, 0, 4, alignment=Qt.AlignmentFlag.AlignCenter)
+        if not self.user["active"]:
+            self.activate = QSvgWidget(images_path("add.svg"))
+            self.activate.setFixedSize(QSize(30, 30))
+            self.activate.setStyleSheet("border: none;")
+            self.subLayout.addWidget(self.activate, 0, 5, alignment=Qt.AlignmentFlag.AlignCenter)
 
         for i in range(1, 5):
             self.subLayout.setColumnStretch(i, 1)

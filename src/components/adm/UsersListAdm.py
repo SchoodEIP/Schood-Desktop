@@ -48,7 +48,7 @@ class UserButton(QWidget):
         """)
         self.subLayout = QGridLayout()
 
-        self.firstname = ButtonLabel(self.user["firstname"] if self.user["active"] == True else "DD " +  self.user["firstname"])
+        self.firstname = ButtonLabel(self.user["firstname"])
         self.lastname = ButtonLabel(self.user["lastname"])
         self.email = ButtonLabel(self.user["email"])
         self.classes = ButtonLabel(", ".join(_class["name"] for _class in self.user["classes"]))
