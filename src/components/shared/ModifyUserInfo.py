@@ -262,6 +262,7 @@ class ModifyUserInfoWidget(QWidget):
         self.setMaximumHeight(500)
 
     def update(self):
+        self.reset()
         self.init_roles()
         self.init_titles()
         self.init_classes()
@@ -292,12 +293,18 @@ class ModifyUserInfoWidget(QWidget):
         self.layout.addWidget(self.classes, 2, 1)
 
     def reset(self):
-        self.lastname.reset()
-        self.firstname.reset()
-        self.email.reset()
-        self.role.reset()
-        self.title.reset()
-        self.classes.reset()
+        if self.lastname:
+            self.lastname.reset()
+        if self.firstname:
+            self.firstname.reset()
+        if self.email:
+            self.email.reset()
+        if self.role:
+            self.role.reset()
+        if self.title:
+            self.title.reset()
+        if self.classes:
+            self.classes.reset()
 
     def init_user(self):
         self.user = stores.users.get_selected_user()

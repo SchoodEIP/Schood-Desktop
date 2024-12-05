@@ -21,7 +21,7 @@ class ActivateUserWidget(QWidget):
 
         self.user = None
         self.text = QLabel("Etes-vous sûr de vouloir réactiver cet utilisateur ?")
-        self.button = Button("Réactiver l'utilisateur", callback=self.click)
+        self.button = Button("Réactiver le compte", callback=self.click)
 
         self.text.setStyleSheet("""
             QLabel {
