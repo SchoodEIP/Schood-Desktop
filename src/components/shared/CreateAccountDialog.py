@@ -24,7 +24,7 @@ class CreateAccountDialogWidget(QWidget):
 
         self.single = Button("Ajouter un compte")
         self.single.clicked.connect(callbackSingle)
-        self.multiple = Button("Ajouter des comptes")
+        self.multiple = Button("Ajouter une liste de comptes")
         self.multiple.clicked.connect(callbackMultiple)
 
         self.error = QLabel("")
@@ -185,7 +185,7 @@ class CreateAccountDialog(Route):
         self.mainWidget.update()
 
     def select_file(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select file", "", "CSV Files (*.csv)")
+        file_path, _ = QFileDialog.getOpenFileName(self, "Choisir un fichier", "", "CSV Files (*.csv)")
         if file_path and file_path.endswith(".csv"):
             res = stores.users.create_users_file(file_path)
             if res is not None and res.status_code == 200:
